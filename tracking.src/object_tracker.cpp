@@ -28,15 +28,29 @@ void object_tracker::taille_median(size_t t) {
 
 void object_tracker::process(cv::Mat& m) {
 	// Construction d'une image de petite taille
-	cv::Mat m_t1(m.rows * 1.0 / increment_, m.cols * 1.0 / increment_, CV_8UC1);
+	cv::Mat petite_image(m.rows * 1.0 / increment_, m.cols * 1.0 / increment_, CV_8UC1);
+	int y = 0;
 	for(int i=0; i<m.rows; i += increment_) {
+		int x = 0;
 		for(int j=0; j<m.cols; j += increment_) {
-			
+			// Va chercher la médiane
+			std::vector<unsigned short> vals;
+			for(size_t k=i; k<i+increment_; ++k) {
+				for(size_t l=j; l<j+increment_; ++j) {
+					vals.push_back(m.at<unsigned short>(k,l));
+				}
+			}
+			std::sort(vals.begin(), vals.end());
+			petite_image.at<unsigned char>(y,x) = std::max(static_cast<unsigned char>(0), std::min(static_cast<unsigned char>(255), static_cast<unsigned char>(vals[vals.size()/2] * 255.0 / 2048.0)));
+			++x;
 		}
+		++y;
 	}
-	cv::flip(m, m, 1);
-	cv::Mat m2(m.size(), CV_8UC1);
-	m.convertTo(m2, CV_8UC1, 255.0/2048 /* 1.0/4.0 de http://code.google.com/p/libfreenect-kernel/source/browse/simple_opencv/freenectopencv.cpp */);
+	// cv::flip(m, m, 1);
+	// Retourne l'image
+	cv::flip(petite_image, petite_image, 1);
+	// cv::Mat m2(m.size(), CV_8UC1);
+	// m.convertTo(m2, CV_8UC1, 255.0/2048 /* 1.0/4.0 de http://code.google.com/p/libfreenect-kernel/source/browse/simple_opencv/freenectopencv.cpp */);
 	// m.convertTo(m_tmp1_, CV_8UC1, 255.0/KINECT_MAX_DEPTH);
 	// m2.copyTo(m_tmp1_);
 	
@@ -46,8 +60,9 @@ void object_tracker::process(cv::Mat& m) {
 	/*
 		Les performances du filtre médian d'OpenCV font passer le framerate de 60fps à 20fps.
 	*/
-	cv::medianBlur(m2, m_tmp1_, taille_median_);
-	m_tmp1_.copyTo(m_8bit_);
+	// cv::medianBlur(m2, m_tmp1_, taille_median_);
+	// m_tmp1_.copyTo(m_8bit_);
+	petite_image.copyTo(m_8bit_);
 	
 	// 2) Construction de l'histogramme
 	// 	.1) Vidage
@@ -56,9 +71,9 @@ void object_tracker::process(cv::Mat& m) {
 		h_[i] = 0;
 	
 	// 	.2) Remplissage
-	for(int i=0; i<m_tmp1_.rows; i += increment_) {
-		for(int j=0; j<m_tmp1_.cols; j += increment_) {
-			size_t v = m_tmp1_.at<unsigned char>(i, j);
+	for(int i=0; i<petite_image.rows; ++i) {
+		for(int j=0; j<petite_image.cols; ++j) {
+			size_t v = petite_image.at<unsigned char>(i, j);
 			if(v == 0 || v == h_.size()-1) continue;
 			int m = std::min(v, h_.size()-1);
 			size_t valeur = std::max(m, 0);
@@ -67,16 +82,16 @@ void object_tracker::process(cv::Mat& m) {
 	}
 	// 	.3) Normalisation
 	for(size_t i=0; i<h_.size(); ++i) {
-		h_[i] /= m_tmp1_.cols * m_tmp1_.rows / increment_ / increment_;
+		h_[i] /= petite_image.cols * petite_image.rows;
 	}
 	
 	// 3) Estimation par noyau gaussien
 	// TODO: Essayer pondération par rapport au taux de variation (pour virer les trucs fixes)
 	//	.1) Récupération des valeurs
 	std::vector<float> valeurs;
-	for(int i=0; i<m_tmp1_.rows; i += increment_) {
-		for(int j=0; j<m_tmp1_.cols; j += increment_) {
-			unsigned char v = m_tmp1_.at<unsigned char>(i, j);
+	for(int i=0; i<petite_image.rows; ++i) {
+		for(int j=0; j<petite_image.cols; ++j) {
+			unsigned char v = petite_image.at<unsigned char>(i, j);
 			if(v == 0 || v == h_.size()-1) continue;
 			int m = std::min((long unsigned int)v, h_.size()-1);
 			size_t valeur = std::max(m, 0);
@@ -111,23 +126,19 @@ void object_tracker::process(cv::Mat& m) {
 	// std::cout << segments_.size() << std::endl;
 	
 	// Itération sur chaque pixel pour l'assigner à son segment
-	int y = 0;
-	for(int i=0; i<m_tmp1_.rows; i += increment_) {
-		int x = 0;
-		for(int j=0; j<m_tmp1_.cols; j += increment_) {
+	for(int i=0; i<petite_image.rows; ++i) {
+		for(int j=0; j<petite_image.cols; ++j) {
 			for(size_t n=1; n<segments_.size(); ++n) {
 				// std::cout << "::::" << n << ";;;; "<<x<<":"<<y << std::endl;
-				unsigned char v = m_tmp1_.at<unsigned char>(i, j);
+				unsigned char v = petite_image.at<unsigned char>(i, j);
 				if(v < 200 && segments_[n-1] <= v && v < segments_[n])
-					segments_nb_[n-1].at<unsigned char>(y,x) = 255;
+					segments_nb_[n-1].at<unsigned char>(i,j) = 255;
 				// else if(v < segments_[n])
 					// segments_nb[n-1].at<unsigned char>(y,x) = 255;
 				else
-					segments_nb_[n-1].at<unsigned char>(y,x) = 0;
+					segments_nb_[n-1].at<unsigned char>(i,j) = 0;
 			}
-			++x;
 		}
-		++y;
 	}
 	
 	// Détection de blob sur chaque segment
@@ -143,7 +154,7 @@ void object_tracker::process(cv::Mat& m) {
 		cvLabel(&m_ipl, labelImg, blobs);
 		for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it) {
 			++nb;
-			blobby bob(i, nb, *(it->second), labelImg, m_tmp1_, increment_);
+			blobby bob(i, nb, *(it->second), labelImg, petite_image, 1);
 			if(bob.valide())
 				blobs_.push_back(bob);
 		}
