@@ -184,7 +184,7 @@ void FiducialFinder::computeGrid() {
 // }
 
 void FiducialFinder::sendTuioMessages() {
-
+	return;
 		// get the current set of objects on the table
 		// we do not only use the raw objects retrieved from the frame
 		// but also the remaining (filtered) objects from our fiducialObject list
