@@ -24,7 +24,7 @@ arkinectoolkitplus::arkinectoolkitplus(kinect* k) : image_couleur_(cv::Size(640,
 	tracker_->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_RPP);
 	tracker_->setMarkerMode(ARToolKitPlus::MARKER_ID_BCH);
 	tracker_->setPixelFormat(ARToolKitPlus::PIXEL_FORMAT_LUM);
-	tracker_->setImageProcessingMode(ARToolKitPlus::IMAGE_HALF_RES);
+	// tracker_->setImageProcessingMode(ARToolKitPlus::IMAGE_HALF_RES);
 	// tracker_->setUseDetectLite(false);
 }
 
@@ -59,6 +59,8 @@ void arkinectoolkitplus::operator()(objet_store* store) {
 			// std::cout << nb_marqueurs << " marqueurs." << std::endl;
 		for(int i=0; i<nb_marqueurs; ++i) {
 							// std::cout << "#" << infos[i].id << ": " << infos[i].pos[0] << "," << infos[i].pos[1] << std::endl;
+							if(infos[i].id <= 0)
+								continue;
 							objet& o = store->get_or_create(infos[i].id);
 							o.x(infos[i].pos[0] * 1.0 / 640);
 							o.y(infos[i].pos[1] * 1.0/ 480);

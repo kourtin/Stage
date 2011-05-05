@@ -65,6 +65,10 @@ ctmf_lib = $(ctmf_dir)/ctmf.o
 ctmf_cppflags = -I$(ctmf_dir)
 ctmf_ldflags = $(ctmf_lib)
 
+# lib: openni
+openni_cppflags = -I/usr/include/ni
+openni_ldflags = -lOpenNI
+
 # lib: stage
 stage_dir = libstage
 stage_lib = $(stage_dir)/libstage.a
@@ -72,14 +76,14 @@ stage_cppflags = -I$(stage_dir)
 stage_ldflags = $(stage_lib)
 
 # libs:
-librairies = opencv cinder freenect cvblob tuio oscpack boost reactivision artoolkitplus ctmf stage
+librairies = opencv cinder freenect cvblob tuio oscpack boost reactivision artoolkitplus ctmf openni stage
 
 # Concaténation de toutes les choses nécessaires aux librairies
 librairies_cppflags = $(foreach lib,$(librairies),$($(addsuffix _cppflags,$(lib))))
 librairies_ldflags = $(foreach lib,$(librairies),$($(addsuffix _ldflags,$(lib))))
 
 # Options à passer au compilateur
-CPPFLAGS ?= -g -Wall
+CPPFLAGS ?= -g -Wall -Wno-unknown-pragmas
 CPPFLAGS += $(addprefix -I,$(chercher_dans))
 CPPFLAGS += $(librairies_cppflags)
 CPPFLAGS += -arch i386
@@ -150,8 +154,8 @@ $(tuio_lib):
 
 .PHONY: clean
 clean:
-	rm -rf *.o *.d $(programmes) $(addsuffix .dSYM,$(programmes)) $(addsuffix .app,$(programmes)) $(addsuffix .src/*.o,$(programmes)) $(artoolkitplus_lib) $(artoolkitplus_objs) $(stage_objs)
-	# $(reactivision_lib) $(reactivision_objs)
+	rm -rf *.o *.d $(programmes) $(addsuffix .dSYM,$(programmes)) $(addsuffix .app,$(programmes)) $(addsuffix .src/*.o,$(programmes)) $(stage_objs)
+	# $(reactivision_lib) $(reactivision_objs) $(artoolkitplus_lib) $(artoolkitplus_objs)
 
 .SECONDEXPANSION:
 $(programmes): $$($$@_objs)

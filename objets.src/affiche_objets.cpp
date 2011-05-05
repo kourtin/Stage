@@ -20,21 +20,31 @@ using namespace ci::app;
 #include "kinectivision.h"
 #include "kinect_segmentor.h"
 #include "arkinectoolkitplus.h"
-#include "kinect.h"
+#include "openni.h"
+#include "freenect.h"
 
 #include "CinderOpenCv.h"
 
 struct oscillathor : public comportement {
-	oscillathor(objet& o) : comportement(o) {}
+	oscillathor(objet& o) : comportement(o), d1_(&line) {
+		d1_.delai(350); d1_.wet(0.3); d1_.feedback(0.4);
+	}
 	virtual void operator()() {
-		oscil_.frequence(440 * objet_attache().x());
+		// oscil_.frequence(440 * objet_attache().x());
+		d1_.delai(objet_attache().x() * 1000 + 100);
+		d1_.feedback(objet_attache().y());
 	}
 private:
-	oscillateur oscil_;
+	// oscillateur oscil_;
+	line_in line;
+	simple_delay d1_;
 };
 
 struct affiche_objets : public AppBasic {
-	affiche_objets() : store_(), tuio_(store_), last_msg_("Reactivision"), alphi_(0), comp_(0), k_(&kinect_), k2_(&kinect_), k3_(&kinect_), reactivision_(true), which_image_(false), s_(0) {}
+	affiche_objets() : store_(), tuio_(store_), last_msg_("ARToolkitplus"), alphi_(0), comp_(0), kinect_(/*new openni*/0), k_(kinect_), k2_(kinect_), k3_(kinect_), reactivision_(false), which_image_(false), s_(0) {
+		if(kinect_)
+			kinect_->init();
+	}
 	
 	virtual ~affiche_objets() {
 		if(alphi_)
@@ -54,31 +64,32 @@ struct affiche_objets : public AppBasic {
 	void update() {
 		for(objet_store::iterator it = store_.begin(); it != store_.end(); ++it) {
 			(*it)->present(false);
-			(*it)->rect() = floatrect();
+			// (*it)->rect() = floatrect();
 		}
-		if(reactivision_) {
-			k_(&store_);
-			image_cam1_ = gl::Texture(fromOcv(k_.image()));
-		}
-		else {
-			k3_(&store_);
-			image_cam1_ = gl::Texture(fromOcv(k3_.image()));
-		}
-		k2_(&store_);
-		// image_cam2_ = gl::Texture(fromOcv(*k2_.segments_[s_]));
-		image_cam2_ = gl::Texture(fromOcv(k2_.petite_image_));
-		// if(store_.objets().size() >= 1 && alphi_ == 0) {
-		// 			alphi_ = new objet_alpha(*(*(store_.begin())));
+		// if(reactivision_) {
+		// 			k_(&store_);
+		// 			image_cam1_ = gl::Texture(fromOcv(k_.image()));
 		// 		}
-		// 		if(store_.objets().size() >= 1 && alphi_ != 0) {
-		// 			(*alphi_).operator()();
+		// 		else {
+		// 			k3_(&store_);
+		// 			image_cam1_ = gl::Texture(fromOcv(k3_.image()));
 		// 		}
-		// 		if(store_.objets().size() >= 2 && comp_ == 0) {
-		// 			comp_ = new oscillathor(*(*(++store_.begin())));
-		// 		}
-		// 		if(store_.objets().size() >= 2 && comp_ != 0) {
-		// 			(*comp_).operator()();
-		// 		}
+		// 		k2_(&store_);
+		// 		// image_cam2_ = gl::Texture(fromOcv(*k2_.segments_[s_]));
+		// 		image_cam2_ = gl::Texture(fromOcv(k2_.petite_image_));
+		
+		if(store_.objets().size() >= 1 && alphi_ == 0 && (*(*(store_.begin()))).id() > 0) {
+					alphi_ = new objet_alpha(*(*(store_.begin())));
+				}
+				if(store_.objets().size() >= 1 && alphi_ != 0 && (*(*(store_.begin()))).id() > 0) {
+					(*alphi_).operator()();
+				}
+				if(store_.objets().size() >= 2 && comp_ == 0 && (*(*(store_.begin()))).id() > 0) {
+					comp_ = new oscillathor(*(*(++store_.begin())));
+				}
+				if(store_.objets().size() >= 2 && comp_ != 0 && (*(*(store_.begin()))).id() > 0) {
+					(*comp_).operator()();
+				}
 		// if(liveosc_.pending()) {
 			// std::ostringstream oss;
 			// osc::ReceivedMessage m(liveosc_.next());
@@ -114,7 +125,7 @@ struct affiche_objets : public AppBasic {
 		
 		// if(false)
 		for(size_t i = 0; i < k2_.blobs_.size(); ++i) {
-			gl::color(ColorA(1.0 - (i * 1.0 / k2_.blobs_.size()), 0.0, 0.0, 1.0));
+			gl::color(ColorA(1.0 - (i * 1.0 / k2_.blobs_.size()), 1.0 - (i * 1.0 / k2_.blobs_.size()), 1.0 - (i * 1.0 / k2_.blobs_.size()), 1.0));
 			blobbos& o = k2_.blobs_[i];
 			Rectf r(o.rect.x1 * getWindowWidth(), o.rect.y1 * getWindowHeight(), o.rect.x2 * getWindowWidth(), o.rect.y2 * getWindowHeight());
 			gl::drawLine(r.getUpperLeft(), r.getUpperRight());
@@ -145,6 +156,8 @@ struct affiche_objets : public AppBasic {
 				oss << o.id();
 				if(o.rect().id > 0)
 					oss << " (" << o.rect().id << ")";
+				if(o.est_attache())
+					oss << " !!!";
 				gl::drawString(oss.str(), position);
 			}
 		}
@@ -180,7 +193,7 @@ struct affiche_objets : public AppBasic {
 				which_image_ = false;
 			}
 		}
-			
+		// TODO: faire quitter	
 	}
 private:	
 	objet_store store_;
@@ -189,7 +202,7 @@ private:
 	std::string last_msg_;
 	objet_alpha* alphi_;
 	comportement* comp_;
-	kinect kinect_;
+	kinect* kinect_;
 	kinectivision k_;
 	kinect_segmentor k2_;
 	arkinectoolkitplus k3_;

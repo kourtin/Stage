@@ -23,6 +23,9 @@ struct objet_store;
 struct floatrect {
 	floatrect() {}
 	floatrect(float cx1, float cy1, float cx2, float cy2) : x1(cx1), y1(cy1), x2(cx2), y2(cy2) {}
+	bool contains(float x, float y) {
+		return x1 <= x && x <= x2 && y1 <= y && y <= y2;
+	}
 	float x1, y1, x2, y2;
 	int id;
 };
@@ -45,7 +48,7 @@ struct objet {
 	float v() { return v_; }
 	float a() { return a_; }
 	float z() { return z_; }
-	floatrect rect() { return rect_; }
+	floatrect rect() { if(!rect_.contains(x(), y())) rect_ = floatrect(); return rect_; }
 	void rect(floatrect r) { rect_ = r; }
 	bool present() { return present_; }
 	float rayon() { return rayon_; }
@@ -58,7 +61,7 @@ struct objet {
 	float distance(objet& o) { return sqrt(pow(x() - o.x(), 2) + pow(y() - o.y(), 2)); }
 	bool collision(objet& o) { return distance(o) <= rayon() + o.rayon(); }
 	bool contient(float x, float y) { return false; } // TODO: remplir correctement
-	bool est_dans(floatrect r) { return r.x1 <= x() && x() <= r.x2 && r.y1 <= y() && y() <= r.y2; }
+	bool est_dans(floatrect r) { return r.contains(x(), y()); }
 private:
 	int id_;
 	float x_, y_, r_, v_, a_, z_;
