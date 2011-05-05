@@ -1,0 +1,356 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+AB	libcvblob/cvtrack.cpp	/^#define AB(/;"	macro	line:102
+AT	libcvblob/cvtrack.cpp	/^#define AT(/;"	macro	line:103
+B	libcvblob/cvtrack.cpp	/^#define B(/;"	macro	line:108
+BLOBBY_H_MO5KH1HV	tracking.src/blobby.h	/^#define BLOBBY_H_MO5KH1HV$/;"	macro	line:2
+BLOB_MATCHER_H_HC68VFZ	tracking.src/blob_matcher.h	/^#define BLOB_MATCHER_H_HC68VFZ$/;"	macro	line:2
+C	libcvblob/cvtrack.cpp	/^#define C(/;"	macro	line:100
+CINDEROPENCV_H_FRIJLTJZ	tracking.src/CinderOpenCV.h	/^#define CINDEROPENCV_H_FRIJLTJZ$/;"	macro	line:2
+CPPFLAGS	Makefile	/^CPPFLAGS ?= -g -Wall$/;"	macro	line:41
+CVBLOB_H	libcvblob/cvblob.h	/^#define CVBLOB_H$/;"	macro	line:31
+CV_BLOB_MAX_LABEL	libcvblob/cvblob.h	/^#define CV_BLOB_MAX_LABEL /;"	macro	line:215
+CV_BLOB_RENDER_ANGLE	libcvblob/cvblob.h	/^#define CV_BLOB_RENDER_ANGLE /;"	macro	line:389
+CV_BLOB_RENDER_BOUNDING_BOX	libcvblob/cvblob.h	/^#define CV_BLOB_RENDER_BOUNDING_BOX /;"	macro	line:388
+CV_BLOB_RENDER_CENTROID	libcvblob/cvblob.h	/^#define CV_BLOB_RENDER_CENTROID /;"	macro	line:387
+CV_BLOB_RENDER_COLOR	libcvblob/cvblob.h	/^#define CV_BLOB_RENDER_COLOR /;"	macro	line:386
+CV_BLOB_RENDER_TO_LOG	libcvblob/cvblob.h	/^#define CV_BLOB_RENDER_TO_LOG /;"	macro	line:390
+CV_BLOB_RENDER_TO_STD	libcvblob/cvblob.h	/^#define CV_BLOB_RENDER_TO_STD /;"	macro	line:391
+CV_CHAINCODE_DOWN	libcvblob/cvblob.h	/^#define CV_CHAINCODE_DOWN	/;"	macro	line:70
+CV_CHAINCODE_DOWN_LEFT	libcvblob/cvblob.h	/^#define CV_CHAINCODE_DOWN_LEFT	/;"	macro	line:71
+CV_CHAINCODE_DOWN_RIGHT	libcvblob/cvblob.h	/^#define CV_CHAINCODE_DOWN_RIGHT	/;"	macro	line:69
+CV_CHAINCODE_LEFT	libcvblob/cvblob.h	/^#define CV_CHAINCODE_LEFT	/;"	macro	line:72
+CV_CHAINCODE_RIGHT	libcvblob/cvblob.h	/^#define CV_CHAINCODE_RIGHT	/;"	macro	line:68
+CV_CHAINCODE_UP	libcvblob/cvblob.h	/^#define CV_CHAINCODE_UP	/;"	macro	line:66
+CV_CHAINCODE_UP_LEFT	libcvblob/cvblob.h	/^#define CV_CHAINCODE_UP_LEFT	/;"	macro	line:73
+CV_CHAINCODE_UP_RIGHT	libcvblob/cvblob.h	/^#define CV_CHAINCODE_UP_RIGHT	/;"	macro	line:67
+CV_TRACK_RENDER_BOUNDING_BOX	libcvblob/cvblob.h	/^#define CV_TRACK_RENDER_BOUNDING_BOX /;"	macro	line:550
+CV_TRACK_RENDER_ID	libcvblob/cvblob.h	/^#define CV_TRACK_RENDER_ID /;"	macro	line:549
+CV_TRACK_RENDER_TO_LOG	libcvblob/cvblob.h	/^#define CV_TRACK_RENDER_TO_LOG /;"	macro	line:551
+CV_TRACK_RENDER_TO_STD	libcvblob/cvblob.h	/^#define CV_TRACK_RENDER_TO_STD /;"	macro	line:552
+CvBlob	libcvblob/cvblob.h	/^  struct CvBlob$/;"	struct	line:221
+CvBlobs	libcvblob/cvblob.h	/^  typedef std::map<CvLabel,CvBlob *> CvBlobs;$/;"	typedef	line:264
+CvChainCode	libcvblob/cvblob.h	/^  typedef unsigned char CvChainCode;$/;"	typedef	line:103
+CvChainCodes	libcvblob/cvblob.h	/^  typedef std::list<CvChainCode> CvChainCodes;$/;"	typedef	line:107
+CvContourChainCode	libcvblob/cvblob.h	/^  struct CvContourChainCode$/;"	struct	line:111
+CvContourPolygon	libcvblob/cvblob.h	/^  typedef std::vector<CvPoint> CvContourPolygon;$/;"	typedef	line:120
+CvContoursChainCode	libcvblob/cvblob.h	/^  typedef std::list<CvContourChainCode *> CvContoursChainCode; \/\/\/< List of contours (chain codes type).$/;"	typedef	line:117
+CvID	libcvblob/cvblob.h	/^  typedef unsigned int CvID;$/;"	typedef	line:218
+CvIDTrack	libcvblob/cvblob.h	/^  typedef std::pair<CvID, CvTrack *> CvIDTrack;$/;"	typedef	line:516
+CvLabel	libcvblob/cvblob.h	/^  typedef unsigned int CvLabel;$/;"	typedef	line:204
+CvLabelBlob	libcvblob/cvblob.h	/^  typedef std::pair<CvLabel,CvBlob *> CvLabelBlob;$/;"	typedef	line:270
+CvTrack	libcvblob/cvblob.h	/^  struct CvTrack$/;"	struct	line:488
+CvTracks	libcvblob/cvblob.h	/^  typedef std::map<CvID, CvTrack *> CvTracks;$/;"	typedef	line:510
+DepthCallback	tracking.src/kinect.cpp	/^void kinect::kinect_device::DepthCallback(void* d, uint32_t t) {$/;"	function	line:24
+DrawCorrespondences	ex2.s/gen_descr.cpp	/^IplImage* DrawCorrespondences(IplImage* img1, const vector<KeyPoint>& features1, IplImage* img2,$/;"	function	line:74
+ESTIMATION_NOYAU_H_APW9RITI	tracking.src/estimation_noyau.h	/^#define ESTIMATION_NOYAU_H_APW9RITI$/;"	macro	line:2
+IB	libcvblob/cvtrack.cpp	/^#define IB(/;"	macro	line:105
+IPL_DEPTH_LABEL	libcvblob/cvblob.h	/^#define IPL_DEPTH_LABEL /;"	macro	line:210
+IT	libcvblob/cvtrack.cpp	/^#define IT(/;"	macro	line:106
+ImageSourceCvMat	tracking.src/CinderOpenCV.h	/^	ImageSourceCvMat( const cv::Mat &mat )$/;"	function	line:26
+ImageSourceCvMat	tracking.src/CinderOpenCV.h	/^class ImageSourceCvMat : public ImageSource {$/;"	class	line:24
+ImageTargetCvMat	tracking.src/CinderOpenCV.h	/^class ImageTargetCvMat : public ImageTarget {$/;"	class	line:11
+ImageTargetCvMat	tracking.src/CinderOpenCV.h	/^inline ImageTargetCvMat::ImageTargetCvMat( cv::Mat *mat )$/;"	function	line:72
+KINECT_H_T17ISX17	tracking.src/kinect.h	/^#define KINECT_H_T17ISX17$/;"	macro	line:2
+KINECT_MAX_DEPTH	tracking.src/object_tracker.h	/^#define KINECT_MAX_DEPTH /;"	macro	line:9
+LDFLAGS	Makefile	/^LDFLAGS ?= -lm$/;"	macro	line:47
+Mutex	tracking.src/kinect.h	/^	Mutex() {$/;"	function	line:10
+Mutex	tracking.src/kinect.h	/^class Mutex {$/;"	class	line:8
+OBJECT_TRACKER_H_997320YD	tracking.src/object_tracker.h	/^#define OBJECT_TRACKER_H_997320YD$/;"	macro	line:2
+OBJET_H_PUVK6WJW	tracking.src/objet.h	/^#define OBJET_H_PUVK6WJW$/;"	macro	line:2
+PI	tracking.src/estimation_noyau.h	/^static const double PI = 3.14159265359;$/;"	variable	line:7
+Palete	libcvblob/cvblob.cpp	/^  typedef std::map<CvLabel, CvScalar> Palete;$/;"	typedef	line:282
+T	libcvblob/cvtrack.cpp	/^#define T(/;"	macro	line:109
+VideoCallback	tracking.src/kinect.cpp	/^void kinect::kinect_device::VideoCallback(void* rgb, uint32_t t) {}$/;"	function	line:22
+_HSV2RGB_	libcvblob/cvblob.cpp	/^#define _HSV2RGB_(/;"	macro	line:247
+_USE_MATH_DEFINES	libcvblob/cvcontour.cpp	/^#define _USE_MATH_DEFINES$/;"	macro	line:22
+__CV_BEGIN__	libcvblob/cvblob.h	/^#define __CV_BEGIN__ /;"	macro	line:46
+__CV_END__	libcvblob/cvblob.h	/^#define __CV_END__ /;"	macro	line:49
+active	libcvblob/cvblob.h	/^    unsigned int active; \/\/\/< Indicates number of frames that has been active from last inactive period.$/;"	member	line:502
+actualiser	tracking.src/objet.cpp	/^void objet::actualiser(std::vector<blobby>& v) {$/;"	function	line:6
+aire	tracking.src/blobby.h	/^	float aire() { return aire_; }$/;"	function	line:14
+aire_	tracking.src/blobby.h	/^	float aire_;$/;"	member	line:34
+angle	tracking.src/blobby.h	/^	float angle() { return angle_; }$/;"	function	line:20
+angle_	tracking.src/blobby.h	/^	float angle_;$/;"	member	line:37
+area	libcvblob/cvblob.h	/^      unsigned int area; \/\/\/< Area (moment 00).$/;"	member	line:227
+association_naive	tracking.src/blob_matcher.cpp	/^void blob_matcher::association_naive(std::vector<blobby>& blobs) {$/;"	function	line:98
+association_naive2	tracking.src/blob_matcher.cpp	/^void blob_matcher::association_naive2(std::vector<blobby>& blobs) {$/;"	function	line:123
+association_park_aggarwal	tracking.src/blob_matcher.cpp	/^void blob_matcher::association_park_aggarwal(std::vector<blobby>& blobs) {$/;"	function	line:29
+backprojMode	exemple.src/camshiftdemo.cpp	/^bool backprojMode = false;$/;"	variable	line:30
+bandwidth	tracking.src/object_tracker.h	/^	double& bandwidth() { return bandwidth_; }$/;"	function	line:19
+bandwidth_	tracking.src/estimation_noyau.h	/^	double bandwidth_;$/;"	member	line:18
+bandwidth_	tracking.src/object_tracker.h	/^	double bandwidth_;$/;"	member	line:32
+blob	tracking.src/objet.h	/^	blobby& blob() { return blob_; }$/;"	function	line:11
+blob_	tracking.src/objet.h	/^	blobby blob_;$/;"	member	line:16
+blob_matcher	tracking.src/blob_matcher.h	/^	blob_matcher() {}$/;"	function	line:8
+blob_matcher	tracking.src/blob_matcher.h	/^struct blob_matcher {$/;"	struct	line:7
+blobby	tracking.src/blobby.cpp	/^blobby::blobby(unsigned int section, unsigned int label, cvb::CvBlob& blob, IplImage* img_lbl, cv::Mat& img_ref) : id_(-1), section_(section), label_(label), aire_(blob.area), rect_(blob.minx, blob.miny, blob.maxx, blob.maxy), centroide_(blob.centroid.x, blob.centroid.y), angle_(cvb::cvAngle(&blob)), pdf_x_(img_lbl->width), pdf_y_(img_lbl->height), pdf_z_(255), zmin_(5000.0f), zmax_(0.0f) {$/;"	function	line:4
+blobby	tracking.src/blobby.h	/^struct blobby {$/;"	struct	line:9
+blobby_	tracking.src/object_tracker.h	/^	cv::Mat m_8bit_, m_tmp1_, blobby_;$/;"	member	line:37
+blobs	tracking.src/object_tracker.h	/^	std::vector<blobby>& blobs() { return blobs_; }$/;"	function	line:24
+blobs_	tracking.src/object_tracker.h	/^	std::vector<blobby> blobs_;$/;"	member	line:36
+blobs_avant_	tracking.src/blob_matcher.h	/^	std::vector<blobby> blobs_avant_;$/;"	member	line:12
+boost_cppflags	Makefile	/^boost_cppflags ?= -I$(boost_dir)\/include$/;"	macro	line:11
+boost_dir	Makefile	/^boost_dir ?= \/usr\/local$/;"	macro	line:10
+boost_ldflags	Makefile	/^boost_ldflags ?= -L$(boost_dir)$/;"	macro	line:12
+c_	tracking.src/kinect.cpp	/^convertisseur kinect::c_ = convertisseur();$/;"	member	line:4
+c_	tracking.src/kinect.h	/^	static convertisseur c_;$/;"	member	line:60
+cam_	tracking.src/main.cpp	/^	CameraPersp cam_;$/;"	member	line:44
+centre_	tracking.src/main.cpp	/^	Vec3f eye_, centre_, up_;$/;"	member	line:46
+centroid	libcvblob/cvblob.h	/^    CvPoint2D64f centroid; \/\/\/< Centroid.$/;"	member	line:236
+centroid	libcvblob/cvblob.h	/^    CvPoint2D64f centroid; \/\/\/< Centroid.$/;"	member	line:499
+centroide	tracking.src/blobby.h	/^	ci::Vec2f centroide() { return centroide_; }$/;"	function	line:16
+centroide_	tracking.src/blobby.h	/^	ci::Vec2f centroide_;$/;"	member	line:36
+chainCode	libcvblob/cvblob.h	/^    CvChainCodes chainCode; \/\/\/< Polygon description based on chain codes.$/;"	member	line:114
+cinder	tracking.src/CinderOpenCV.h	/^namespace cinder {$/;"	namespace	line:9
+cinder_cppflags	Makefile	/^cinder_cppflags ?= -I$(cinder_dir)\/include -I$(cinderopencv_dir)\/include -Wno-reorder$/;"	macro	line:17
+cinder_dir	Makefile	/^cinder_dir ?= \/Users\/join\/src\/cinder_0.8.2_mac$/;"	macro	line:15
+cinder_ldflags	Makefile	/^cinder_ldflags ?= $(cinder_dir)\/lib\/libcinder_d.a -framework Accelerate -framework AudioToolbox -framework AudioUnit -framework CoreAudio -framework CoreVideo -framework OpenGL -framework QTKit -framework QuickTime -framework Cocoa$/;"	macro	line:18
+cinderopencv_dir	Makefile	/^cinderopencv_dir ?= $(cinder_dir)\/blocks\/opencv$/;"	macro	line:16
+construire_matrice	tracking.src/blob_matcher.cpp	/^void blob_matcher::construire_matrice(std::vector<blobby>& blobs) {$/;"	function	line:152
+contour	libcvblob/cvblob.h	/^    CvContourChainCode contour;           \/\/\/< Contour.$/;"	member	line:255
+convertisseur	tracking.src/kinect.h	/^	convertisseur() {$/;"	function	line:29
+convertisseur	tracking.src/kinect.h	/^class convertisseur {$/;"	class	line:23
+createRef	tracking.src/CinderOpenCV.h	/^	static shared_ptr<ImageTargetCvMat> createRef( cv::Mat *mat ) { return shared_ptr<ImageTargetCvMat>( new ImageTargetCvMat( mat ) ); }$/;"	function	line:13
+cvAngle	libcvblob/cvblob.cpp	/^  double cvAngle(CvBlob *blob)$/;"	function	line:319
+cvBlobMeanColor	libcvblob/cvcolor.cpp	/^  CvScalar cvBlobMeanColor(CvBlob const *blob, IplImage const *imgLabel, IplImage const *img)$/;"	function	line:35
+cvCentroid	libcvblob/cvblob.h	/^  inline CvPoint2D64f cvCentroid(CvBlob *blob)$/;"	function	line:361
+cvChainCodeMoves	libcvblob/cvblob.h	/^  const char cvChainCodeMoves[8][2] = { { 0, -1},$/;"	variable	line:84
+cvContourChainCodePerimeter	libcvblob/cvcontour.cpp	/^  double cvContourChainCodePerimeter(CvContourChainCode const *c)$/;"	function	line:180
+cvContourPolygonArea	libcvblob/cvcontour.cpp	/^  double cvContourPolygonArea(CvContourPolygon const *p)$/;"	function	line:154
+cvContourPolygonCircularity	libcvblob/cvcontour.cpp	/^  double cvContourPolygonCircularity(const CvContourPolygon *p)$/;"	function	line:219
+cvContourPolygonPerimeter	libcvblob/cvcontour.cpp	/^  double cvContourPolygonPerimeter(CvContourPolygon const *p)$/;"	function	line:202
+cvConvertChainCodesToPolygon	libcvblob/cvcontour.cpp	/^  CvContourPolygon *cvConvertChainCodesToPolygon(CvContourChainCode const *cc)$/;"	function	line:85
+cvCrossProductPoints	libcvblob/cvaux.cpp	/^  double cvCrossProductPoints(CvPoint const &a, CvPoint const &b, CvPoint const &c)$/;"	function	line:46
+cvDistanceLinePoint	libcvblob/cvaux.cpp	/^  double cvDistanceLinePoint(CvPoint const &a, CvPoint const &b, CvPoint const &c, bool isSegment)$/;"	function	line:64
+cvDistancePointPoint	libcvblob/cvaux.cpp	/^  double cvDistancePointPoint(CvPoint const &a, CvPoint const &b)$/;"	function	line:56
+cvDotProductPoints	libcvblob/cvaux.cpp	/^  double cvDotProductPoints(CvPoint const &a, CvPoint const &b, CvPoint const &c)$/;"	function	line:36
+cvFilterByArea	libcvblob/cvblob.cpp	/^  void cvFilterByArea(CvBlobs &blobs, unsigned int minArea, unsigned int maxArea)$/;"	function	line:56
+cvFilterByLabel	libcvblob/cvblob.cpp	/^  void cvFilterByLabel(CvBlobs &blobs, CvLabel label)$/;"	function	line:75
+cvFilterLabels	libcvblob/cvlabel.cpp	/^  void cvFilterLabels(IplImage *imgIn, IplImage *imgOut, const CvBlobs &blobs)$/;"	function	line:360
+cvGetLabel	libcvblob/cvlabel.cpp	/^  CvLabel cvGetLabel(IplImage const *img, unsigned int x, unsigned int y)$/;"	function	line:411
+cvGreaterBlob	libcvblob/cvblob.cpp	/^  CvLabel cvGreaterBlob(const CvBlobs &blobs)$/;"	function	line:37
+cvLabel	libcvblob/cvlabel.cpp	/^  unsigned int cvLabel (IplImage const *img, IplImage *imgOut, CvBlobs &blobs)$/;"	function	line:47
+cvPolygonContourConvexHull	libcvblob/cvcontour.cpp	/^  CvContourPolygon *cvPolygonContourConvexHull(CvContourPolygon const *p)$/;"	function	line:326
+cvReleaseBlob	libcvblob/cvblob.h	/^  inline void cvReleaseBlob(CvBlob *blob)$/;"	function	line:304
+cvReleaseBlobs	libcvblob/cvblob.h	/^  inline void cvReleaseBlobs(CvBlobs &blobs)$/;"	function	line:324
+cvReleaseTracks	libcvblob/cvblob.h	/^  inline void cvReleaseTracks(CvTracks &tracks)$/;"	function	line:522
+cvRenderBlob	libcvblob/cvblob.cpp	/^  void cvRenderBlob(const IplImage *imgLabel, CvBlob *blob, IplImage *imgSource, IplImage *imgDest, unsigned short mode, CvScalar const &color, double alpha)$/;"	function	line:136
+cvRenderBlobs	libcvblob/cvblob.cpp	/^  void cvRenderBlobs(const IplImage *imgLabel, CvBlobs &blobs, IplImage *imgSource, IplImage *imgDest, unsigned short mode, double alpha)$/;"	function	line:284
+cvRenderContourChainCode	libcvblob/cvcontour.cpp	/^  void cvRenderContourChainCode(CvContourChainCode const *contour, IplImage const *img, CvScalar const &color)$/;"	function	line:48
+cvRenderContourPolygon	libcvblob/cvcontour.cpp	/^  void cvRenderContourPolygon(CvContourPolygon const *contour, IplImage *img, CvScalar const &color)$/;"	function	line:126
+cvRenderTracks	libcvblob/cvtrack.cpp	/^  void cvRenderTracks(CvTracks const tracks, IplImage *imgSource, IplImage *imgDest, unsigned short mode, CvFont *font)$/;"	function	line:345
+cvSaveImageBlob	libcvblob/cvblob.cpp	/^  void cvSaveImageBlob(const char *filename, IplImage *img, CvBlob const *blob)$/;"	function	line:329
+cvSetImageROItoBlob	libcvblob/cvblob.h	/^  inline void cvSetImageROItoBlob(IplImage *img, CvBlob const *blob)$/;"	function	line:431
+cvSimplifyPolygon	libcvblob/cvcontour.cpp	/^  CvContourPolygon *cvSimplifyPolygon(CvContourPolygon const *p, double const delta)$/;"	function	line:275
+cvUpdateTracks	libcvblob/cvtrack.cpp	/^  void cvUpdateTracks(CvBlobs const &blobs, CvTracks &tracks, const double thDistance, const unsigned int thInactive, const unsigned int thActive)$/;"	function	line:157
+cvWriteContourPolygonCSV	libcvblob/cvcontour.cpp	/^  void cvWriteContourPolygonCSV(const CvContourPolygon& p, const string& filename)$/;"	function	line:380
+cvWriteContourPolygonSVG	libcvblob/cvcontour.cpp	/^  void cvWriteContourPolygonSVG(const CvContourPolygon& p, const string& filename, const CvScalar& stroke, const CvScalar& fill)$/;"	function	line:390
+cvb	libcvblob/cvaux.cpp	/^namespace cvb$/;"	namespace	line:30
+cvb	libcvblob/cvblob.cpp	/^namespace cvb$/;"	namespace	line:34
+cvb	libcvblob/cvblob.h	/^  namespace cvb$/;"	namespace	line:56
+cvb	libcvblob/cvcolor.cpp	/^namespace cvb$/;"	namespace	line:32
+cvb	libcvblob/cvcontour.cpp	/^namespace cvb$/;"	namespace	line:45
+cvb	libcvblob/cvlabel.cpp	/^namespace cvb$/;"	namespace	line:32
+cvb	libcvblob/cvtrack.cpp	/^namespace cvb$/;"	namespace	line:33
+cvblob_cppflags	Makefile	/^cvblob_cppflags ?= -Ilibcvblob$/;"	macro	line:31
+cvblob_objs	Makefile	/^cvblob_objs = $(patsubst %.cpp,%.o,$(wildcard libcvblob\/*.cpp))$/;"	macro	line:55
+defaultFont	libcvblob/cvtrack.cpp	/^  CvFont *defaultFont = NULL;$/;"	variable	line:343
+depth_lut	tracking.src/kinect.h	/^	float depth_lut[2048];$/;"	member	line:24
+depth_to	tracking.src/kinect.cpp	/^bool kinect::depth_to(cv::Mat& o) {$/;"	function	line:14
+dipah_	tracking.src/kinect.h	/^		cv::Mat dipah_;$/;"	member	line:53
+dipah_	tracking.src/main.cpp	/^	cv::Mat dipah_;$/;"	member	line:38
+distance	tracking.src/blobby.cpp	/^float blobby::distance(blobby& b) {$/;"	function	line:49
+distance_avant_	tracking.src/objet.h	/^	float distance_avant_, distance_initiale_;$/;"	member	line:17
+distance_cam_	tracking.src/main.cpp	/^	float distance_cam_;$/;"	member	line:48
+distance_initiale_	tracking.src/objet.h	/^	float distance_avant_, distance_initiale_;$/;"	member	line:17
+distantBlobTrack	libcvblob/cvtrack.cpp	/^  double distantBlobTrack(CvBlob const *b, CvTrack const *t)$/;"	function	line:36
+draw	tracking.src/main.cpp	/^void tracking::draw() {$/;"	function	line:88
+estimation_noyau	tracking.src/estimation_noyau.cpp	/^estimation_noyau::estimation_noyau(std::vector<float>& v, double bandwidth) : valeurs_(v), bandwidth_(bandwidth) {}$/;"	function	line:5
+estimation_noyau	tracking.src/estimation_noyau.h	/^struct estimation_noyau {$/;"	struct	line:9
+eye_	tracking.src/main.cpp	/^	Vec3f eye_, centre_, up_;$/;"	member	line:46
+figtree_cppflags	Makefile	/^figtree_cppflags ?= -I$(figtree_dir)\/include$/;"	macro	line:27
+figtree_dir	Makefile	/^figtree_dir ?= \/Users\/join\/src\/figtree-0.9.3$/;"	macro	line:26
+figtree_ldflags	Makefile	/^figtree_ldflags ?= -L$(figtree_dir)\/lib -lfigtree -lann_figtree_version$/;"	macro	line:28
+freenect_	tracking.src/kinect.h	/^	Freenect::Freenect freenect_;$/;"	member	line:58
+freenect_	tracking.src/main.cpp	/^	Freenect::Freenect freenect_;$/;"	member	line:39
+freenect_cppflags	Makefile	/^freenect_cppflags ?= -I$(freenect_dir)\/include\/libfreenect$/;"	macro	line:22
+freenect_dir	Makefile	/^freenect_dir ?= \/usr\/local$/;"	macro	line:21
+freenect_ldflags	Makefile	/^freenect_ldflags ?= -L$(freenect_dir)\/lib -lfreenect$/;"	macro	line:23
+fromOcv	tracking.src/CinderOpenCV.h	/^inline ImageSourceRef fromOcv( cv::Mat &mat )$/;"	function	line:140
+fromOcv	tracking.src/CinderOpenCV.h	/^inline Vec2f fromOcv( const cv::Point2f &point )$/;"	function	line:150
+fromOcv	tracking.src/CinderOpenCV.h	/^inline Vec2i fromOcv( const cv::Point &point )$/;"	function	line:160
+fromOcv	tracking.src/CinderOpenCV.h	/^inline ci::Area fromOcv( const cv::Rect &r )$/;"	function	line:175
+gaussien	tracking.src/estimation_noyau.h	/^	float gaussien(float u) {$/;"	function	line:13
+getClusterForBlob	libcvblob/cvtrack.cpp	/^  void getClusterForBlob(unsigned int blobPos, CvID *close, unsigned int nBlobs, unsigned int nTracks, CvBlobs const &blobs, CvTracks const &tracks, list<CvBlob*> &bb, list<CvTrack*> &tt)$/;"	function	line:113
+getClusterForTrack	libcvblob/cvtrack.cpp	/^  void getClusterForTrack(unsigned int trackPos, CvID *close, unsigned int nBlobs, unsigned int nTracks, CvBlobs const &blobs, CvTracks const &tracks, list<CvBlob*> &bb, list<CvTrack*> &tt)$/;"	function	line:135
+getRowPointer	tracking.src/CinderOpenCV.h	/^	virtual void*	getRowPointer( int32_t row ) { return reinterpret_cast<void*>( reinterpret_cast<uint8_t*>(mMat->data) + row * mMat->step ); }$/;"	function	line:16
+h_	tracking.src/object_tracker.h	/^	std::vector<float> kde_, h_;$/;"	member	line:33
+hasAlpha	tracking.src/CinderOpenCV.h	/^	virtual bool hasAlpha() const { return mMat->channels() == 4; }	$/;"	function	line:15
+help	ex2.s/gen_descr.cpp	/^void help()$/;"	function	line:10
+help	exemple.src/camshiftdemo.cpp	/^void help()$/;"	function	line:11
+histogramme	tracking.src/object_tracker.h	/^	std::vector<float>& histogramme() { return h_; }$/;"	function	line:26
+id	libcvblob/cvblob.h	/^    CvID id; \/\/\/< Track identification number.$/;"	member	line:490
+id_	tracking.src/blobby.h	/^	long int id_;$/;"	member	line:30
+image	exemple.src/camshiftdemo.cpp	/^Mat image;$/;"	variable	line:28
+imageIn	libcvblob/cvlabel.cpp	/^#define imageIn(/;"	macro	line:86
+imageOut	libcvblob/cvlabel.cpp	/^#define imageOut(/;"	macro	line:87
+image_	tracking.src/main.cpp	/^	gl::Texture image_;$/;"	member	line:36
+inactive	libcvblob/cvblob.h	/^    unsigned int inactive; \/\/\/< Indicates number of frames that has been missing.$/;"	member	line:503
+increment	tracking.src/object_tracker.cpp	/^void object_tracker::increment(size_t i) {$/;"	function	line:13
+increment	tracking.src/object_tracker.h	/^	size_t increment() { return increment_; }$/;"	function	line:20
+increment_	tracking.src/object_tracker.h	/^	size_t taille_median_, increment_;$/;"	member	line:31
+internalContours	libcvblob/cvblob.h	/^    CvContoursChainCode internalContours; \/\/\/< Internal contours.$/;"	member	line:256
+k1	tracking.src/kinect.h	/^	static const float k1 = 1.1863;$/;"	member	line:25
+k2	tracking.src/kinect.h	/^	static const float k2 = 2842.5;$/;"	member	line:26
+k3	tracking.src/kinect.h	/^	static const float k3 = 0.1236;$/;"	member	line:27
+kde	tracking.src/object_tracker.h	/^	std::vector<float>& kde() { return kde_; }$/;"	function	line:25
+kde_	tracking.src/object_tracker.h	/^	std::vector<float> kde_, h_;$/;"	member	line:33
+kinect	tracking.src/kinect.cpp	/^kinect::kinect() : kinect_(freenect_.createDevice<kinect_device>(0)) {$/;"	function	line:6
+kinect	tracking.src/kinect.h	/^struct kinect {$/;"	struct	line:41
+kinect_	tracking.src/kinect.h	/^	kinect_device& kinect_;$/;"	member	line:59
+kinect_	tracking.src/main.cpp	/^	kinect kinect_;$/;"	member	line:40
+kinect_device	tracking.src/kinect.cpp	/^kinect::kinect_device::kinect_device(freenect_context* ctx, int i) : Freenect::FreenectDevice(ctx, i), dipah_(cv::Size(640,480), CV_16UC1) {}$/;"	function	line:18
+kinect_device	tracking.src/kinect.h	/^	struct kinect_device : public Freenect::FreenectDevice {$/;"	struct	line:46
+label	libcvblob/cvblob.h	/^    CvLabel label; \/\/\/< Label assigned to the blob related to this track.$/;"	member	line:492
+label	libcvblob/cvblob.h	/^    CvLabel label; \/\/\/< Label assigned to the blob.$/;"	member	line:223
+label	tracking.src/blobby.h	/^	unsigned int label() { return label_; }$/;"	function	line:18
+label	tracking.src/blobby.h	/^	void label(unsigned int i) { label_ = i; }$/;"	function	line:19
+label_	tracking.src/blobby.h	/^	unsigned int label_;$/;"	member	line:33
+librairies	Makefile	/^librairies = opencv cinder freenect cvblob$/;"	macro	line:34
+librairies_cppflags	Makefile	/^librairies_cppflags = $(foreach lib,$(librairies),$($(addsuffix _cppflags,$(lib))))$/;"	macro	line:37
+librairies_ldflags	Makefile	/^librairies_ldflags = $(foreach lib,$(librairies),$($(addsuffix _ldflags,$(lib))))$/;"	macro	line:38
+lifetime	libcvblob/cvblob.h	/^    unsigned int lifetime; \/\/\/< Indicates how much frames the object has been in scene.$/;"	member	line:501
+load	tracking.src/CinderOpenCV.h	/^	void load( ImageTargetRef target ) {$/;"	function	line:55
+lock	tracking.src/kinect.h	/^	void lock() {$/;"	function	line:13
+m00	libcvblob/cvblob.h	/^      unsigned int m00; \/\/\/< Moment 00 (area).$/;"	member	line:228
+m01	libcvblob/cvblob.h	/^    double m01; \/\/\/< Moment 01.$/;"	member	line:239
+m02	libcvblob/cvblob.h	/^    double m02; \/\/\/< Moment 02.$/;"	member	line:242
+m10	libcvblob/cvblob.h	/^    double m10; \/\/\/< Moment 10.$/;"	member	line:238
+m11	libcvblob/cvblob.h	/^    double m11; \/\/\/< Moment 11.$/;"	member	line:240
+m20	libcvblob/cvblob.h	/^    double m20; \/\/\/< Moment 20.$/;"	member	line:241
+mData	tracking.src/CinderOpenCV.h	/^	const uint8_t		*mData;$/;"	member	line:66
+mMat	tracking.src/CinderOpenCV.h	/^	cv::Mat		*mMat;$/;"	member	line:21
+mRowBytes	tracking.src/CinderOpenCV.h	/^	int32_t				mRowBytes;$/;"	member	line:67
+m_	tracking.src/kinect.h	/^		Mutex m_;$/;"	member	line:55
+m_8bit	tracking.src/object_tracker.h	/^	cv::Mat& m_8bit() { return m_8bit_; }$/;"	function	line:23
+m_8bit_	tracking.src/object_tracker.h	/^	cv::Mat m_8bit_, m_tmp1_, blobby_;$/;"	member	line:37
+m_mutex	tracking.src/kinect.h	/^	pthread_mutex_t m_mutex;$/;"	member	line:20
+m_tmp1	tracking.src/object_tracker.h	/^	cv::Mat& m_tmp1() { return m_tmp1_; }$/;"	function	line:22
+m_tmp1_	tracking.src/object_tracker.h	/^	cv::Mat m_8bit_, m_tmp1_, blobby_;$/;"	member	line:37
+main	ex2.s/gen_descr.cpp	/^int main(int argc, char** argv)$/;"	function	line:20
+main	exemple.src/camshiftdemo.cpp	/^int main( int argc, char** argv )$/;"	function	line:67
+main	meanshift.src/meanshift.cpp	/^int main() {$/;"	function	line:1
+matcher_	tracking.src/object_tracker.h	/^	blob_matcher matcher_;$/;"	member	line:38
+matrice_distances_	tracking.src/blob_matcher.h	/^	boost::numeric::ublas::matrix<double> matrice_distances_;$/;"	member	line:13
+max_segments	tracking.src/object_tracker.h	/^	enum { max_segments = 15 };$/;"	enumerator	line:12
+maxx	libcvblob/cvblob.h	/^    unsigned int maxx; \/\/\/< X max.$/;"	member	line:232
+maxx	libcvblob/cvblob.h	/^    unsigned int maxx; \/\/\/< X max.$/;"	member	line:495
+maxy	libcvblob/cvblob.h	/^    unsigned int maxy; \/\/\/< y max.$/;"	member	line:234
+maxy	libcvblob/cvblob.h	/^    unsigned int maxy; \/\/\/< y max.$/;"	member	line:497
+minx	libcvblob/cvblob.h	/^    unsigned int minx; \/\/\/< X min.$/;"	member	line:231
+minx	libcvblob/cvblob.h	/^    unsigned int minx; \/\/\/< X min.$/;"	member	line:494
+miny	libcvblob/cvblob.h	/^    unsigned int miny; \/\/\/< Y min.$/;"	member	line:233
+miny	libcvblob/cvblob.h	/^    unsigned int miny; \/\/\/< Y min.$/;"	member	line:496
+mouseDown	tracking.src/main.cpp	/^void tracking::mouseDown(MouseEvent e) {$/;"	function	line:222
+mouseDrag	tracking.src/main.cpp	/^void tracking::mouseDrag(MouseEvent e) {$/;"	function	line:226
+mouseUp	tracking.src/main.cpp	/^void tracking::mouseUp(MouseEvent e) {$/;"	function	line:230
+mouseWheel	tracking.src/main.cpp	/^void tracking::mouseWheel(MouseEvent e) {$/;"	function	line:197
+mouse_	tracking.src/main.cpp	/^	float mouse_;$/;"	member	line:42
+movesE	libcvblob/cvlabel.cpp	/^  const char movesE[4][3][4] = { { {-1, -1, 3, CV_CHAINCODE_UP_LEFT   }, { 0, -1, 0, CV_CHAINCODE_UP   }, { 1, -1, 0, CV_CHAINCODE_UP_RIGHT   } },$/;"	variable	line:34
+movesI	libcvblob/cvlabel.cpp	/^  const char movesI[4][3][4] = { { { 1, -1, 3, CV_CHAINCODE_UP_RIGHT   }, { 0, -1, 0, CV_CHAINCODE_UP   }, {-1, -1, 0, CV_CHAINCODE_UP_LEFT    } },$/;"	variable	line:40
+n02	libcvblob/cvblob.h	/^    double n02; \/\/\/< Normalized central moment 02.$/;"	member	line:250
+n11	libcvblob/cvblob.h	/^    double n11; \/\/\/< Normalized central moment 11.$/;"	member	line:248
+n20	libcvblob/cvblob.h	/^    double n20; \/\/\/< Normalized central moment 20.$/;"	member	line:249
+next_id	tracking.src/blobby.h	/^	static long int next_id() {$/;"	function	line:25
+nom	tracking.src/objet.h	/^	std::string nom() { return nom_; }$/;"	function	line:12
+nom_	tracking.src/objet.h	/^	std::string nom_;$/;"	member	line:14
+nouvelle_frame_depth_	tracking.src/kinect.h	/^		bool nouvelle_frame_depth_;$/;"	member	line:54
+object_tracker	tracking.src/object_tracker.cpp	/^object_tracker::object_tracker(cv::Size s) : blobby_(s, CV_8UC3), taille_median_(41), increment_(24), bandwidth_(3), kde_(256), h_(256), m_8bit_(s.height, s.width, CV_8UC1), m_tmp1_(s, CV_8UC1) {$/;"	function	line:7
+object_tracker	tracking.src/object_tracker.h	/^struct object_tracker {$/;"	struct	line:11
+objet	tracking.src/objet.cpp	/^objet::objet(blobby& b) : nom_("@@@@@@@@@"), blob_(b), distance_avant_(-1), distance_initiale_(-1) {}$/;"	function	line:4
+objet	tracking.src/objet.h	/^struct objet {$/;"	struct	line:7
+objets_	tracking.src/object_tracker.h	/^	std::vector<objet> objets_;$/;"	member	line:29
+onMouse	exemple.src/camshiftdemo.cpp	/^void onMouse( int event, int x, int y, int, void* )$/;"	function	line:38
+opencv_cppflags	Makefile	/^opencv_cppflags ?= `pkg-config opencv --cflags`$/;"	macro	line:6
+opencv_ldflags	Makefile	/^opencv_ldflags ?= `pkg-config opencv --libs`$/;"	macro	line:7
+operator ()	tracking.src/blob_matcher.cpp	/^void blob_matcher::operator()(std::vector<blobby>& blobs) {$/;"	function	line:5
+operator ()	tracking.src/estimation_noyau.cpp	/^float estimation_noyau::operator()(float x) {$/;"	function	line:7
+operator ()	tracking.src/kinect.h	/^	float operator()(size_t depth) {$/;"	function	line:33
+operator <<	libcvblob/cvblob.cpp	/^ostream& operator<< (ostream& output, const cvb::CvBlob& b)$/;"	function	line:339
+operator <<	libcvblob/cvcontour.cpp	/^ostream& operator<< (ostream& output, const cvb::CvContourPolygon& p)$/;"	function	line:430
+origin	exemple.src/camshiftdemo.cpp	/^Point origin;$/;"	variable	line:34
+p1	libcvblob/cvblob.h	/^    double p1; \/\/\/< Hu moment 1.$/;"	member	line:252
+p2	libcvblob/cvblob.h	/^    double p2; \/\/\/< Hu moment 2.$/;"	member	line:253
+params_	tracking.src/main.cpp	/^	params::InterfaceGl params_;$/;"	member	line:47
+pdf_x_	tracking.src/blobby.h	/^	std::vector<float> pdf_x_, pdf_y_, pdf_z_;$/;"	member	line:38
+pdf_y_	tracking.src/blobby.h	/^	std::vector<float> pdf_x_, pdf_y_, pdf_z_;$/;"	member	line:38
+pdf_z_	tracking.src/blobby.h	/^	std::vector<float> pdf_x_, pdf_y_, pdf_z_;$/;"	member	line:38
+pi	libcvblob/cvcontour.cpp	/^const double pi = M_PI;$/;"	variable	line:40
+plusgrand	tracking.src/blob_matcher.cpp	/^bool plusgrand(blobby* i, blobby* j) { $/;"	function	line:21
+pointeur	tracking.src/blob_matcher.cpp	/^T* pointeur(T& v) { return &v; }$/;"	function	line:26
+prepareSettings	tracking.src/main.cpp	/^void tracking::prepareSettings(Settings* settings) {$/;"	function	line:53
+present	tracking.src/objet.h	/^	bool present() { return present_; }$/;"	function	line:10
+present_	tracking.src/objet.h	/^	bool present_;$/;"	member	line:15
+process	tracking.src/object_tracker.cpp	/^void object_tracker::process(cv::Mat& m) {$/;"	function	line:27
+prochaine_depth_map	tracking.src/kinect.cpp	/^bool kinect::kinect_device::prochaine_depth_map(cv::Mat& out) {$/;"	function	line:33
+programmes	Makefile	/^programmes = $(patsubst %.src,%,$(wildcard *.src))$/;"	macro	line:53
+r_	tracking.src/main.cpp	/^	Surface r_;$/;"	member	line:37
+rect	tracking.src/blobby.h	/^	ci::Rectf rect() { return rect_; }$/;"	function	line:15
+rect_	tracking.src/blobby.h	/^	ci::Rectf rect_;$/;"	member	line:35
+rotation_	tracking.src/main.cpp	/^	Quatf rotation_;$/;"	member	line:45
+scl	tracking.src/kinect.h	/^	unsigned int scl(float f) {$/;"	function	line:36
+section	tracking.src/blobby.h	/^	unsigned int section() { return section_; }$/;"	function	line:17
+section_	tracking.src/blobby.h	/^	unsigned int section_;$/;"	member	line:32
+seg_	tracking.src/main.cpp	/^	int seg_;$/;"	member	line:43
+segments	tracking.src/object_tracker.h	/^	std::vector<int>& segments() { return segments_; }$/;"	function	line:27
+segments_	tracking.src/object_tracker.h	/^	std::vector<int> segments_;$/;"	member	line:34
+segments_nb	tracking.src/object_tracker.h	/^	std::vector<cv::Mat>& segments_nb() { return segments_nb_; }$/;"	function	line:28
+segments_nb_	tracking.src/object_tracker.h	/^	std::vector<cv::Mat> segments_nb_;$/;"	member	line:35
+selectObject	exemple.src/camshiftdemo.cpp	/^bool selectObject = false;$/;"	variable	line:31
+selection	exemple.src/camshiftdemo.cpp	/^Rect selection;$/;"	variable	line:35
+setup	tracking.src/main.cpp	/^void tracking::setup() {$/;"	function	line:59
+showHist	exemple.src/camshiftdemo.cpp	/^bool showHist = true;$/;"	variable	line:33
+simplifyPolygonRecursive	libcvblob/cvcontour.cpp	/^  void simplifyPolygonRecursive(CvContourPolygon const *p, int const i1, int const i2, bool *pnUseFlag, double const delta)$/;"	function	line:237
+smin	exemple.src/camshiftdemo.cpp	/^int vmin = 10, vmax = 256, smin = 30;$/;"	variable	line:36
+startingPoint	libcvblob/cvblob.h	/^    CvPoint startingPoint; \/\/\/< Point where contour begin.$/;"	member	line:113
+taille_median	tracking.src/object_tracker.cpp	/^void object_tracker::taille_median(size_t t) {$/;"	function	line:18
+taille_median	tracking.src/object_tracker.h	/^	size_t taille_median() { return taille_median_; }$/;"	function	line:17
+taille_median_	tracking.src/object_tracker.h	/^	size_t taille_median_, increment_;$/;"	member	line:31
+toOcv	tracking.src/CinderOpenCV.h	/^inline cv::Mat toOcv( ci::ImageSourceRef sourceRef, int type = -1 )$/;"	function	line:102
+toOcv	tracking.src/CinderOpenCV.h	/^inline cv::Point toOcv( const Vec2i &point )$/;"	function	line:165
+toOcv	tracking.src/CinderOpenCV.h	/^inline cv::Point2f toOcv( const Vec2f &point )$/;"	function	line:155
+toOcv	tracking.src/CinderOpenCV.h	/^inline cv::Rect toOcv( const ci::Area &r )$/;"	function	line:170
+toOcv	tracking.src/CinderOpenCV.h	/^inline cv::Scalar toOcv( const Color &color )$/;"	function	line:145
+toOcvRef	tracking.src/CinderOpenCV.h	/^inline cv::Mat toOcvRef( Channel32f &channel )$/;"	function	line:125
+toOcvRef	tracking.src/CinderOpenCV.h	/^inline cv::Mat toOcvRef( Channel8u &channel )$/;"	function	line:120
+toOcvRef	tracking.src/CinderOpenCV.h	/^inline cv::Mat toOcvRef( Surface32f &surface )$/;"	function	line:135
+toOcvRef	tracking.src/CinderOpenCV.h	/^inline cv::Mat toOcvRef( Surface8u &surface )$/;"	function	line:130
+trackObject	exemple.src/camshiftdemo.cpp	/^int trackObject = 0;$/;"	variable	line:32
+tracker_	tracking.src/main.cpp	/^	object_tracker tracker_;$/;"	member	line:41
+tracking	tracking.src/main.cpp	/^struct tracking : public AppBasic {$/;"	struct	line:25
+tracking	tracking.src/main.cpp	/^tracking::tracking() : dipah_(cv::Size(640, 480), CV_16UC1), tracker_(cv::Size(640, 480)), mouse_(-1), seg_(-1), centre_(Vec3f::zero()), up_(Vec3f::yAxis()) {}$/;"	function	line:51
+u02	libcvblob/cvblob.h	/^    double u02; \/\/\/< Central moment 02.$/;"	member	line:246
+u11	libcvblob/cvblob.h	/^    double u11; \/\/\/< Central moment 11.$/;"	member	line:244
+u20	libcvblob/cvblob.h	/^    double u20; \/\/\/< Central moment 20.$/;"	member	line:245
+unlock	tracking.src/kinect.h	/^	void unlock() {$/;"	function	line:16
+up_	tracking.src/main.cpp	/^	Vec3f eye_, centre_, up_;$/;"	member	line:46
+update	tracking.src/main.cpp	/^void tracking::update() {$/;"	function	line:76
+valeurs_	tracking.src/estimation_noyau.h	/^	std::vector<float> valeurs_;$/;"	member	line:17
+valide	tracking.src/blobby.cpp	/^bool blobby::valide() {$/;"	function	line:43
+vmax	exemple.src/camshiftdemo.cpp	/^int vmin = 10, vmax = 256, smin = 30;$/;"	variable	line:36
+vmin	exemple.src/camshiftdemo.cpp	/^int vmin = 10, vmax = 256, smin = 30;$/;"	variable	line:36
+zmax	tracking.src/blobby.h	/^	float zmax() { return zmax_; }$/;"	function	line:23
+zmax_	tracking.src/blobby.h	/^	float zmin_, zmax_;$/;"	member	line:39
+zmin	tracking.src/blobby.h	/^	float zmin() { return zmin_; }$/;"	function	line:22
+zmin_	tracking.src/blobby.h	/^	float zmin_, zmax_;$/;"	member	line:39
+~blob_matcher	tracking.src/blob_matcher.h	/^	virtual ~blob_matcher() {}$/;"	function	line:9
+~blobby	tracking.src/blobby.cpp	/^blobby::~blobby() {}$/;"	function	line:41
+~estimation_noyau	tracking.src/estimation_noyau.h	/^	virtual ~estimation_noyau() {}$/;"	function	line:11
+~kinect	tracking.src/kinect.cpp	/^kinect::~kinect() {$/;"	function	line:10
+~kinect_device	tracking.src/kinect.cpp	/^kinect::kinect_device::~kinect_device() {}$/;"	function	line:20
+~object_tracker	tracking.src/object_tracker.cpp	/^object_tracker::~object_tracker() {}$/;"	function	line:11

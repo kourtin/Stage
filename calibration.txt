@@ -1,0 +1,3 @@
+Format des fichiers .cal de ARToolkitplus :
+[line1]: ARToolKitPlus_CamCal_Rev02
+[line2]: xsize ysize cc_x cc_y fc_x fc_y kc1 kc2 kc3 kc3 kc5 kc6 iter
