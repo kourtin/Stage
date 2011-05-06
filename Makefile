@@ -23,7 +23,7 @@ freenect_cppflags ?= -I$(freenect_dir)/include/libfreenect
 freenect_ldflags ?= -L$(freenect_dir)/lib -lfreenect
 
 # lib: figtree
-figtree_dir ?= /Users/join/src/figtree-0.9.3
+figtree_dir ?= libfigtree
 figtree_cppflags ?= -I$(figtree_dir)/include
 figtree_ldflags ?= -L$(figtree_dir)/lib -lfigtree -lann_figtree_version
 
@@ -76,7 +76,7 @@ stage_cppflags = -I$(stage_dir)
 stage_ldflags = $(stage_lib)
 
 # libs:
-librairies = opencv cinder freenect cvblob tuio oscpack boost reactivision artoolkitplus ctmf openni stage
+librairies = opencv cinder freenect cvblob tuio oscpack boost reactivision artoolkitplus ctmf openni figtree stage
 
 # Concaténation de toutes les choses nécessaires aux librairies
 librairies_cppflags = $(foreach lib,$(librairies),$($(addsuffix _cppflags,$(lib))))

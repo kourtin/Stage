@@ -2,6 +2,7 @@
 
 #include "kinect.h"
 #include "objet_store.h"
+#include <figtree.h>
 #include <ctmf.h>
 #include <cvblob.h>
 #include <iostream>
@@ -22,8 +23,7 @@ void miniaturiser(cv::Mat original, cv::Mat reduit, unsigned int facteur) {
 }
 
 struct estimateur_noyau_8bit {
-	typedef std::vector<double> histogramme;
-	typedef histogramme::iterator iterator;
+	typedef std::vector<double>::iterator iterator;
 	estimateur_noyau_8bit(double bandwidth) : densite_(255), bandwidth_(bandwidth) {}
 	virtual ~estimateur_noyau_8bit() {}
 	template <class Itt>
@@ -46,6 +46,41 @@ private:
 		return 1.0 / sqrt(2 * M_PI) * exp(-1.0 / 2 * u * u);
 	}
 	std::vector<double> densite_;
+	float bandwidth_;
+};
+
+struct compteur {
+	compteur() : c_(0) {}
+	unsigned int operator()() {
+		return c_++;
+	}
+private:
+	unsigned int c_;
+};
+
+struct estimateur_noyau_figtree {
+	typedef std::vector<double>::iterator iterator;
+	estimateur_noyau_figtree(double bandwidth, int nb_valeurs = 10000) : densite_(255), target_(255), source_(nb_valeurs), poids_(nb_valeurs), bandwidth_(bandwidth) {
+		std::generate(target_.begin(), target_.end(), compteur());
+	}
+	virtual ~estimateur_noyau_figtree() {}
+	template <class Itt>
+	void operator()(Itt deb, Itt fin) {
+		unsigned int nb_valeurs = std::distance(deb, fin);
+		double facteur = 1.0 / (bandwidth_ * nb_valeurs);
+		poids_.resize(nb_valeurs);
+		source_.resize(nb_valeurs);
+		std::copy(deb, fin, source_.begin());
+		std::fill(poids_.begin(), poids_.end(), facteur * 1.0 / sqrt(2 * M_PI));
+		figtree(1, nb_valeurs, densite_.size(), 1, &(*source_.begin()), bandwidth_, &(*poids_.begin()), &(*target_.begin()), 0.01, &(*densite_.begin()));
+	}
+	iterator begin() { return densite_.begin(); }
+	iterator end() { return densite_.end(); }
+private:
+	std::vector<double> densite_;
+	std::vector<double> target_;
+	std::vector<double> source_;
+	std::vector<double> poids_;
 	float bandwidth_;
 };
 

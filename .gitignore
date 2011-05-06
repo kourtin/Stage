@@ -2,3 +2,8 @@
 *.o
 *.dSYM/
 *.a
+*.dll
+*.exe
+*.so
+*.dylib
+*.lib
