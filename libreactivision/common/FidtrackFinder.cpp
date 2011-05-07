@@ -175,11 +175,11 @@ void FidtrackFinder::process(unsigned char *src, unsigned char *dest) {
 			FiducialObject addFiducial(session_id, fiducials[i].id, width, height,fiducials[i].root_colour,fiducials[i].node_count);
 			addFiducial.update(fiducials[i].x,fiducials[i].y,fiducials[i].angle,fiducials[i].root_size,fiducials[i].leaf_size);
 			fiducialList.push_back(addFiducial);
-			if (msg_listener) {
-				std::stringstream add_message;
-				add_message << "add obj " << session_id << " " << fiducials[i].id;
-				msg_listener->setMessage(add_message.str());
-			}
+			// if (msg_listener) {
+				// std::stringstream add_message;
+				// add_message << "add obj " << session_id << " " << fiducials[i].id;
+				// msg_listener->setMessage(add_message.str());
+			// }
 		}
 			
 		//else drawObject(fiducials[i].id,(int)(fiducials[i].x),(int)(fiducials[i].y),display,0);

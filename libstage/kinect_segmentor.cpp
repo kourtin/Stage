@@ -72,7 +72,7 @@ struct estimateur_noyau_figtree {
 		source_.resize(nb_valeurs);
 		std::copy(deb, fin, source_.begin());
 		std::fill(poids_.begin(), poids_.end(), facteur * 1.0 / sqrt(2 * M_PI));
-		figtree(1, nb_valeurs, densite_.size(), 1, &(*source_.begin()), bandwidth_, &(*poids_.begin()), &(*target_.begin()), 0.01, &(*densite_.begin()));
+		figtree(1, nb_valeurs, densite_.size(), 1, &(*source_.begin()), sqrt(2) * bandwidth_, &(*poids_.begin()), &(*target_.begin()), 0.01, &(*densite_.begin()));
 	}
 	iterator begin() { return densite_.begin(); }
 	iterator end() { return densite_.end(); }
@@ -128,7 +128,7 @@ private:
 };
 
 kinect_segmentor::kinect_segmentor(kinect* k) : 
-	downscale_kde_(24), downscale_(16), 
+	downscale_kde_(16), downscale_(16), 
 	depth_map_(cv::Size(640, 480), CV_16UC1), 
 	image_depth_(cv::Size(640, 480), CV_8UC1), 
 	image_depth2_(cv::Size(640, 480), CV_8UC1),
@@ -136,7 +136,7 @@ kinect_segmentor::kinect_segmentor(kinect* k) :
 	image_tmp_(cv::Size(640 / downscale_kde_, 480 / downscale_kde_), CV_8UC1), 
 	image_tmp_ipl_(petite_image_),
 	label_img_(cvCreateImage(cvGetSize(&image_tmp_ipl_), IPL_DEPTH_LABEL, 1)), 
-	kinect_(k), median_size_(39), kernel_bandwidth_(5.7), segments_(10) {
+	kinect_(k), median_size_(39), kernel_bandwidth_(1.0), segments_(30) {
 	init_segments();
 }
 
@@ -161,14 +161,23 @@ void kinect_segmentor::operator()(objet_store* store) {
 		// Conversion en 8 bits
 		depth_map_.convertTo(image_depth_, CV_8UC1, 255.0 / 2048.0);
 		// Filtre médian
-		cv::medianBlur(image_depth_, image_depth_, median_size_);
+		// cv::medianBlur(image_depth_, image_depth_, median_size_);
 		// Marche pas... ?
-		// ctmf(image_depth_.data, image_depth2_.data, image_depth_.cols, image_depth_.rows, 1, 1, median_size_, 1, 2048 * 1024);
+		// ctmf(image_depth2_.data, image_depth_.data, image_depth_.rows, image_depth_.cols, 1, 1, median_size_, 1, 2048 * 1024);
+		// Met à jour les positions z
+		for(objet_store::iterator it = store->begin(); it != store->end(); ++it) {
+			objet* o = *it;
+			unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y_c() * image_depth_.rows, o->x_c() * image_depth_.cols);
+			// std::cout << (int)valeur_sur_o << std::endl;
+			if(valeur_sur_o != 0)
+				o->z((valeur_sur_o - 22) * 1.0 / (43-28));
+		}
+		return;
 		// Création d'une miniature
 		miniaturiser(image_depth_, image_tmp_, downscale_kde_);
 		miniaturiser(image_depth_, petite_image_, downscale_);
 		// Estimation de densité
-		estimateur_noyau_8bit kde(kernel_bandwidth_);
+		estimateur_noyau_figtree kde(kernel_bandwidth_, image_tmp_.rows * image_tmp_.cols);
 		kde(image_tmp_.data, image_tmp_.data + image_tmp_.rows * image_tmp_.cols);
 		// Segmentation de la densité
 		segmenteur seg(segments_.size());
@@ -201,7 +210,6 @@ void kinect_segmentor::operator()(objet_store* store) {
 				// Transforme les points dans les coordonnées de l'image couleur
 				cv::Vec2f inf_gauche(rect.x * downscale_, rect.y * downscale_);// match_depth_point(image_depth_, rect.x * downscale_, rect.y * downscale_);
 				cv::Vec2f sup_droit((rect.x + rect.width) * downscale_, (rect.y + rect.height) * downscale_);// = match_depth_point(image_depth_, );
-				
 				// std::cout << "infgauche: "<< inf_gauche[0] << ", " << inf_gauche[1] << std::endl;
 				// std::cout << "supdroit : "<< sup_droit[0] << ", " << sup_droit[1] << std::endl;
 				
@@ -212,10 +220,14 @@ void kinect_segmentor::operator()(objet_store* store) {
 				objet* o = store->get_in(blb.rect);
 				if(o && o->present() && std::find(deja_associes.begin(), deja_associes.end(), o->id()) == deja_associes.end()) {
 					// Teste si l'objet tombe bien sur le segment
-					unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y() * image_depth_.rows, o->x() * image_depth_.cols);
+					unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y_c() * image_depth_.rows, o->x_c() * image_depth_.cols);
 					if(borne_inf <= valeur_sur_o && valeur_sur_o < borne_sup) {
+						// Transforme les points dans le repère d'origine (x, y)
+						o->rect(floatrect(blb.rect.x1 - o->x_c(), blb.rect.y1 - o->y_c(), blb.rect.x2 - o->x_c(), blb.rect.y2 - o->y_c()));
+						// Associe
 						deja_associes.push_back(o->id());
-						o->rect(blb.rect);
+						// Peut couper l'image plus précisément
+						
 					}
 				}
 			}

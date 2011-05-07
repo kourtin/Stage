@@ -2,23 +2,10 @@
 #define OBJET_H_I70OZNCH
 
 #include <cmath>
+#include <opencv/cv.h>
 
 struct comportement;
 struct objet_store;
-
-// struct couplage_virtuel {
-// 	couplage_virtuel(float k, float z, float x = 0.f) : k_(k), z_(z) {}
-// 	virtual ~couplage_virtuel() {}
-// 	void reset(float i = 0.f) { x_ = i; }
-// 	void k(float i) { k_ = i; }
-// 	void z(float i) { z_ = i; }
-// 	float k() { return k_; }
-// 	float z() { return z_; }
-// 	void update() { /* formule Julien */ }
-// 	double& operator()() { return x_; }
-// private:
-// 	float k_, z_, x_;
-// };
 
 struct floatrect {
 	floatrect() {}
@@ -30,25 +17,31 @@ struct floatrect {
 	int id;
 };
 
+class couplage_virtuel;
+
 struct objet {
 	objet(objet_store* store, int id, float x = 0.0, float y = 0.0, float r = 0.0, float v = 0.0 , float a = 0.0, bool present = true);
+	virtual ~objet();
 	void id(int i) { id_ = i; }
 	void x(float i) { x_ = i; }
 	void y(float i) { y_ = i; }
+	void z(float i) { z_ = i; }
 	void r(float i) { r_ = i; }
 	void v(float i) { v_ = i; }
 	void a(float i) { a_ = i; }
-	void z(float i) { z_ = i; }
 	void present(bool i) { present_ = i; }
 	void rayon(float i) { rayon_ = i; }
 	int id() { return id_; }
-	float x() { return x_; }
-	float y() { return y_; }
+	float x();
+	float y();
+	float z();
+	float x_c() { return x_; }
+	float y_c() { return y_; }
+	float z_c() { return z_; }
 	float r() { return r_; }
 	float v() { return v_; }
 	float a() { return a_; }
-	float z() { return z_; }
-	floatrect rect() { if(!rect_.contains(x(), y())) rect_ = floatrect(); return rect_; }
+	floatrect rect() { return rect_; }
 	void rect(floatrect r) { rect_ = r; }
 	bool present() { return present_; }
 	float rayon() { return rayon_; }
@@ -58,11 +51,13 @@ struct objet {
 	comportement* comportement_attache() { return comportement_; }
 	objet_store& store() { return *store_; }
 	
-	float distance(objet& o) { return sqrt(pow(x() - o.x(), 2) + pow(y() - o.y(), 2)); }
+	float distance(objet& o) { return sqrt(pow(x_ - o.x_, 2) + pow(y_ - o.y_, 2)); }
 	bool collision(objet& o) { return distance(o) <= rayon() + o.rayon(); }
 	bool contient(float x, float y) { return false; } // TODO: remplir correctement
-	bool est_dans(floatrect r) { return r.contains(x(), y()); }
+	bool est_dans(floatrect r) { return r.contains(x_, y_); }
+	cv::Mat& image() { return image_; }
 private:
+	friend class couplage_virtuel;
 	int id_;
 	float x_, y_, r_, v_, a_, z_;
 	bool present_;
@@ -70,6 +65,8 @@ private:
 	floatrect rect_; 
 	comportement* comportement_;
 	objet_store* store_;
+	couplage_virtuel* couplage_;
+	cv::Mat image_;
 };
 
 #endif /* end of include guard: OBJET_H_I70OZNCH */

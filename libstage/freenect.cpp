@@ -66,30 +66,30 @@ bool freenect::kinect_device::prochaine_depth_map(cv::Mat& out) {
 bool freenect::kinect_device::prochaine_image(cv::Mat& out) {
 	m2_.lock();
 	if(nouvelle_image_) {
-		float mat_cam[9] = {5.7581573486328125e+02, 0., 320., 0., 5.7581573486328125e+02,
-			240., 0., 0., 1.};
-		cv::Mat dist = cv::Mat::zeros(8, 1, CV_64F);
-		dist.at<double>(0) = 0.17710499257899193;
-		dist.at<double>(1) = -0.83152290437826637;
-		dist.at<double>(2) = -0.023601182007631782;
-		dist.at<double>(3) = 0.013186630055783820;
-		dist.at<double>(4) =  1.0365227884736543;
-		// cv::Mat matcam(3, 3, CV_64F, mat_cam);
-		cv::Mat matcam = cv::Mat::eye(3,3,CV_64F);
-		matcam.at<double>(0,0) = 5.7581573486328125e+02;
-		matcam.at<double>(1,1) = 5.7581573486328125e+02;
-		matcam.at<double>(0,2) = 320;
-		matcam.at<double>(1,2) = 240;
-		static std::clock_t t = std::clock();
-		static bool ok = false;
-		if(std::clock() - t > 2 * CLOCKS_PER_SEC) {
-			std::cout << "BIP" << std::endl;
-			t = std::clock();
-			ok = !ok;
-		}
-		if(ok)
-			cv::undistort(img_, out, matcam, dist);
-		else
+		// float mat_cam[9] = {5.7581573486328125e+02, 0., 320., 0., 5.7581573486328125e+02,
+		// 			240., 0., 0., 1.};
+		// 		cv::Mat dist = cv::Mat::zeros(8, 1, CV_64F);
+		// 		dist.at<double>(0) = 0.17710499257899193;
+		// 		dist.at<double>(1) = -0.83152290437826637;
+		// 		dist.at<double>(2) = -0.023601182007631782;
+		// 		dist.at<double>(3) = 0.013186630055783820;
+		// 		dist.at<double>(4) =  1.0365227884736543;
+		// 		// cv::Mat matcam(3, 3, CV_64F, mat_cam);
+		// 		cv::Mat matcam = cv::Mat::eye(3,3,CV_64F);
+		// 		matcam.at<double>(0,0) = 5.7581573486328125e+02;
+		// 		matcam.at<double>(1,1) = 5.7581573486328125e+02;
+		// 		matcam.at<double>(0,2) = 320;
+		// 		matcam.at<double>(1,2) = 240;
+		// 		static std::clock_t t = std::clock();
+		// 		static bool ok = false;
+		// if(std::clock() - t > 2 * CLOCKS_PER_SEC) {
+		// 			std::cout << "BIP" << std::endl;
+		// 			t = std::clock();
+		// 			ok = !ok;
+		// 		}
+		// 		if(ok)
+		// 			cv::undistort(img_, out, matcam, dist);
+		// 		else
 			img_.copyTo(out);
 		nouvelle_image_ = false;
 		m2_.unlock();
