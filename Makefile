@@ -12,10 +12,10 @@ boost_cppflags ?= -I$(boost_dir)/include
 boost_ldflags ?= -L$(boost_dir)
 
 # lib: cinder
-cinder_dir ?= /Users/join/src/cinder_0.8.2_mac
+cinder_dir ?= /Users/join/src/cinder_master
 cinderopencv_dir ?= $(cinder_dir)/blocks/opencv
 cinder_cppflags ?= -I$(cinder_dir)/include -I$(cinderopencv_dir)/include -Wno-reorder
-cinder_ldflags ?= $(cinder_dir)/lib/libcinder_d.a -framework Accelerate -framework AudioToolbox -framework AudioUnit -framework CoreAudio -framework CoreVideo -framework OpenGL -framework QTKit -framework QuickTime -framework Cocoa
+cinder_ldflags ?= $(cinder_dir)/lib/libcinder_d.a -lz -framework Accelerate -framework AudioToolbox -framework AudioUnit -framework CoreAudio -framework CoreVideo -framework OpenGL -framework QTKit -framework QuickTime -framework Cocoa
 
 # lib: freenect
 freenect_dir ?= /usr/local

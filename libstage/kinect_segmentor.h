@@ -4,8 +4,6 @@
 #include "sonde_environnementale.h"
 #include <opencv/cv.h>
 
-class kinect;
-
 #include "objet.h"
 
 struct blobbos {
@@ -14,7 +12,7 @@ struct blobbos {
 };
 
 struct kinect_segmentor : public sonde_environnementale {
-	kinect_segmentor(kinect*);
+	kinect_segmentor(cv::Mat&);
 	virtual ~kinect_segmentor();
 	void init_segments();
 	void operator()(objet_store* store = 0);
@@ -23,7 +21,6 @@ struct kinect_segmentor : public sonde_environnementale {
 	unsigned int downscale_kde_, downscale_;
 	cv::Mat depth_map_, image_depth_, image_depth2_, petite_image_, image_tmp_;
 	IplImage image_tmp_ipl_, *label_img_;
-	kinect* kinect_;
 	float median_size_;
 	float kernel_bandwidth_;
 	segment_liste segments_;

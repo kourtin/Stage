@@ -7,6 +7,7 @@ struct kinect {
 	kinect();
 	virtual ~kinect();
 	virtual void init() = 0;
+	virtual void update() = 0;
 	virtual bool depth_to(cv::Mat&) = 0;
 	virtual bool img_to(cv::Mat&) = 0;
 };

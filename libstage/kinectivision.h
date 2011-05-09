@@ -6,10 +6,8 @@
 #include <opencv/cv.h>
 #include <vector>
 
-class kinect;
-
 struct kinectivision : public sonde_environnementale {
-	kinectivision(kinect*);
+	kinectivision(cv::Mat&);
 	virtual ~kinectivision();
 	void operator()(objet_store* store = 0);
 	cv::Mat& image() { return image_processed_; }
@@ -19,7 +17,6 @@ private:
 	std::vector<FrameProcessor*> processors_;
 	MessageServer* server_;
 	FrameProcessor* fiducialfinder_, *thresholder_, *equalizer_, *calibrator_;
-	kinect* kinect_;
 };
 
 #endif /* end of include guard: KINECTIVISION_H_367XGTMJ */

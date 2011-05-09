@@ -8,6 +8,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <list>
 
 void miniaturiser(cv::Mat original, cv::Mat reduit, unsigned int facteur) {
 	int y = 0;
@@ -93,7 +94,7 @@ struct segmenteur {
 		enum etat { croissance, decroissance, stagnation };
 		etat e = stagnation;
 		float last = -1;
-		for(int i = 1; deb != fin && segments_.size() < max_; ++i) {
+		for(int i = 3; deb != fin && segments_.size() < max_; ++i) {
 			double current = *deb++;
 			// std::cout << i << ". Current: " << current << "; Last: " << last << std::endl;
 			if(current < last)
@@ -127,16 +128,25 @@ private:
 	unsigned char a_, b_;
 };
 
-kinect_segmentor::kinect_segmentor(kinect* k) : 
+struct dans_intervalle {
+	dans_intervalle(unsigned char a, unsigned char b) : a_(a), b_(b) {}
+	unsigned char operator()(unsigned char v) {
+		return a_ <= v && v < b_;
+	}
+private:
+	unsigned char a_, b_;	
+};
+
+kinect_segmentor::kinect_segmentor(cv::Mat& img) : 
 	downscale_kde_(16), downscale_(16), 
-	depth_map_(cv::Size(640, 480), CV_16UC1), 
+	depth_map_(img), 
 	image_depth_(cv::Size(640, 480), CV_8UC1), 
 	image_depth2_(cv::Size(640, 480), CV_8UC1),
 	petite_image_(cv::Size(640 / downscale_, 480 / downscale_), CV_8UC1), 
 	image_tmp_(cv::Size(640 / downscale_kde_, 480 / downscale_kde_), CV_8UC1), 
 	image_tmp_ipl_(petite_image_),
 	label_img_(cvCreateImage(cvGetSize(&image_tmp_ipl_), IPL_DEPTH_LABEL, 1)), 
-	kinect_(k), median_size_(39), kernel_bandwidth_(1.0), segments_(30) {
+	median_size_(39), kernel_bandwidth_(1.0), segments_(30) {
 	init_segments();
 }
 
@@ -156,83 +166,96 @@ void kinect_segmentor::init_segments() {
 }
 
 void kinect_segmentor::operator()(objet_store* store) {
-	if(!kinect_) return;
-	if(kinect_->depth_to(depth_map_)) {
-		// Conversion en 8 bits
-		depth_map_.convertTo(image_depth_, CV_8UC1, 255.0 / 2048.0);
-		// Filtre médian
-		// cv::medianBlur(image_depth_, image_depth_, median_size_);
-		// Marche pas... ?
-		// ctmf(image_depth2_.data, image_depth_.data, image_depth_.rows, image_depth_.cols, 1, 1, median_size_, 1, 2048 * 1024);
-		// Met à jour les positions z
-		for(objet_store::iterator it = store->begin(); it != store->end(); ++it) {
-			objet* o = *it;
-			unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y_c() * image_depth_.rows, o->x_c() * image_depth_.cols);
-			// std::cout << (int)valeur_sur_o << std::endl;
-			if(valeur_sur_o != 0)
-				o->z((valeur_sur_o - 22) * 1.0 / (43-28));
+	// Conversion en 8 bits
+	depth_map_.convertTo(image_depth_, CV_8UC1, 255.0 / 2048.0);
+	// Filtre médian
+	// cv::medianBlur(image_depth_, image_depth_, median_size_);
+	// Marche pas... ?
+	// ctmf(image_depth2_.data, image_depth_.data, image_depth_.rows, image_depth_.cols, 1, 1, median_size_, 1, 2048 * 1024);
+	// Met à jour les positions z
+	// En profite pour stocker une liste de positions z intéressantes pour accélérer la segmentation
+	std::list<unsigned char> les_z_interessants;
+	for(objet_store::iterator it = store->begin(); it != store->end(); ++it) {
+		objet* o = *it;
+		if(!o->present())
+			continue;
+		unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y_c() * image_depth_.rows, o->x_c() * image_depth_.cols);
+		// std::cout << (int)valeur_sur_o << std::endl;
+		if(valeur_sur_o != 0 && valeur_sur_o != 255) {
+			les_z_interessants.push_back(valeur_sur_o);
+			// std::cout << "interessant: " << o->id() << "en " << o->x_c() << "," << o->y_c() << " = " << (int)valeur_sur_o << std::endl;
+			o->z(valeur_sur_o / 255);
 		}
-		return;
-		// Création d'une miniature
-		miniaturiser(image_depth_, image_tmp_, downscale_kde_);
-		miniaturiser(image_depth_, petite_image_, downscale_);
-		// Estimation de densité
-		estimateur_noyau_figtree kde(kernel_bandwidth_, image_tmp_.rows * image_tmp_.cols);
-		kde(image_tmp_.data, image_tmp_.data + image_tmp_.rows * image_tmp_.cols);
-		// Segmentation de la densité
-		segmenteur seg(segments_.size());
-		seg(kde.begin(), kde.end());
-		// Préparation des images correspondant à chaque segment
-		// Ensuite, pour chaque segment, faire une analyse de composantes connexes (blob extraction)
-		// Et pour chaque blob, s'il est à l'emplacement d'un objet déjà présent dans le store, l'associer à cet objet
-		// en changeant ses caractéristiques (bounding box)
-		blobs_.clear();
-		std::vector<int> deja_associes;
-		deja_associes.clear();
-		int nb = 0;
-		segmenteur::iterator sit = seg.begin();
-		unsigned char borne_inf = *sit++, borne_sup;
-		int segg = 0;
-		for(segment_liste::iterator it = segments_.begin(); it != segments_.end() && sit != seg.end(); ++it) {
-			cv::Mat& mon_segment = *(*it);
-			borne_sup = *sit++;
-			std::fill(mon_segment.data, mon_segment.data + mon_segment.rows * mon_segment.cols, 0);
-			std::transform(petite_image_.data, petite_image_.data + petite_image_.rows * petite_image_.cols, mon_segment.data, remplisseur(borne_inf, borne_sup));
-			// cv::medianBlur(mon_segment, mon_segment, 3);
-			typedef std::vector<std::vector<cv::Point> > contour_vector;
-			contour_vector contours;
-			std::vector<cv::Vec4i> hierarchie;
-			cv::findContours(mon_segment, contours, hierarchie, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-			for(contour_vector::iterator it2 = contours.begin(); it2 != contours.end(); ++it2) {
-				std::vector<cv::Point>& mon_contour = *it2;
-				cv::Rect rect = cv::boundingRect(cv::Mat(mon_contour));
-				blobbos blb;
-				// Transforme les points dans les coordonnées de l'image couleur
-				cv::Vec2f inf_gauche(rect.x * downscale_, rect.y * downscale_);// match_depth_point(image_depth_, rect.x * downscale_, rect.y * downscale_);
-				cv::Vec2f sup_droit((rect.x + rect.width) * downscale_, (rect.y + rect.height) * downscale_);// = match_depth_point(image_depth_, );
-				// std::cout << "infgauche: "<< inf_gauche[0] << ", " << inf_gauche[1] << std::endl;
-				// std::cout << "supdroit : "<< sup_droit[0] << ", " << sup_droit[1] << std::endl;
-				
-				blb.rect = floatrect(inf_gauche[0] * 1.0 / image_depth_.cols, inf_gauche[1] * 1.0 / image_depth_.rows, sup_droit[0] * 1.0 / image_depth_.cols, sup_droit[1] * 1.0 / image_depth_.rows);
-				blb.id = nb++;
-				blb.rect.id = nb - 1;
-				blobs_.push_back(blb);
-				objet* o = store->get_in(blb.rect);
-				if(o && o->present() && std::find(deja_associes.begin(), deja_associes.end(), o->id()) == deja_associes.end()) {
-					// Teste si l'objet tombe bien sur le segment
-					unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y_c() * image_depth_.rows, o->x_c() * image_depth_.cols);
-					if(borne_inf <= valeur_sur_o && valeur_sur_o < borne_sup) {
-						// Transforme les points dans le repère d'origine (x, y)
-						o->rect(floatrect(blb.rect.x1 - o->x_c(), blb.rect.y1 - o->y_c(), blb.rect.x2 - o->x_c(), blb.rect.y2 - o->y_c()));
-						// Associe
-						deja_associes.push_back(o->id());
-						// Peut couper l'image plus précisément
-						
-					}
-				}
+	}
+	// std::cout << std::endl;
+	// return;
+	// Création d'une miniature
+	miniaturiser(image_depth_, image_tmp_, downscale_kde_);
+	miniaturiser(image_depth_, petite_image_, downscale_);
+	// Estimation de densité
+	estimateur_noyau_figtree kde(kernel_bandwidth_, image_tmp_.rows * image_tmp_.cols);
+	kde(image_tmp_.data, image_tmp_.data + image_tmp_.rows * image_tmp_.cols);
+	// Segmentation de la densité
+	segmenteur seg(segments_.size());
+	seg(kde.begin(), kde.end());
+	// Préparation des images correspondant à chaque segment
+	// Ensuite, pour chaque segment, faire une analyse de composantes connexes (blob extraction)
+	// Et pour chaque blob, s'il est à l'emplacement d'un objet déjà présent dans le store, l'associer à cet objet
+	// en changeant ses caractéristiques (bounding box)
+	blobs_.clear();
+	std::vector<int> deja_associes;
+	deja_associes.clear();
+	int nb = 0;
+	segmenteur::iterator sit = seg.begin();
+	unsigned char borne_inf = *sit++, borne_sup;
+	int segg = 0;
+	for(segment_liste::iterator it = segments_.begin(); it != segments_.end() && sit != seg.end(); ++it) {
+		cv::Mat& mon_segment = *(*it);
+		borne_sup = *sit++;
+		
+		// Cherche si le segment contient un z intéressant, sinon ne le traite pas.
+		std::list<unsigned char>::iterator e = std::find_if(les_z_interessants.begin(), les_z_interessants.end(), dans_intervalle(borne_inf, borne_sup));
+		if(e == les_z_interessants.end())
+			continue;
+		
+		std::fill(mon_segment.data, mon_segment.data + mon_segment.rows * mon_segment.cols, 0);
+		std::transform(petite_image_.data, petite_image_.data + petite_image_.rows * petite_image_.cols, mon_segment.data, remplisseur(borne_inf, borne_sup));
+		// cv::medianBlur(mon_segment, mon_segment, 3);
+		typedef std::vector<std::vector<cv::Point> > contour_vector;
+		contour_vector contours;
+		std::vector<cv::Vec4i> hierarchie;
+		cv::findContours(mon_segment, contours, hierarchie, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+		for(contour_vector::iterator it2 = contours.begin(); it2 != contours.end(); ++it2) {
+			std::vector<cv::Point>& mon_contour = *it2;
+			cv::Rect rect = cv::boundingRect(cv::Mat(mon_contour));
+			blobbos blb;
+			// Transforme les points dans les coordonnées de l'image couleur
+			cv::Vec2f inf_gauche(rect.x * downscale_, rect.y * downscale_);// match_depth_point(image_depth_, rect.x * downscale_, rect.y * downscale_);
+			cv::Vec2f sup_droit((rect.x + rect.width) * downscale_, (rect.y + rect.height) * downscale_);// = match_depth_point(image_depth_, );
+			// std::cout << "infgauche: "<< inf_gauche[0] << ", " << inf_gauche[1] << std::endl;
+			// std::cout << "supdroit : "<< sup_droit[0] << ", " << sup_droit[1] << std::endl;
+			blb.rect = floatrect(inf_gauche[0] * 1.0 / image_depth_.cols, inf_gauche[1] * 1.0 / image_depth_.rows, sup_droit[0] * 1.0 / image_depth_.cols, sup_droit[1] * 1.0 / image_depth_.rows);
+			blb.id = nb++;
+			blb.id = (borne_inf + borne_sup) / 2;
+			blb.rect.id = nb - 1;
+			blobs_.push_back(blb);
+			objet* o = store->get_in(blb.rect);
+			if(o && o->present() && std::find(deja_associes.begin(), deja_associes.end(), o->id()) == deja_associes.end()) {
+				// Teste si l'objet tombe bien sur le segment
+				// unsigned char valeur_sur_o = image_depth_.at<unsigned char>(o->y_c() * image_depth_.rows, o->x_c() * image_depth_.cols);
+				// if(borne_inf <= valeur_sur_o && valeur_sur_o < borne_sup) {
+					// Transforme les points dans le repère d'origine (x, y)
+				floatrect r(blb.rect.x1 - o->x_c(), blb.rect.y1 - o->y_c(), blb.rect.x2 - o->x_c(), blb.rect.y2 - o->y_c());
+				r.id = nb - 1;
+					o->rect(r);
+					// Associe
+					deja_associes.push_back(o->id());
+					// Peut couper l'image plus précisément
+					
+				// }
 			}
-			borne_inf = borne_sup;
-			++segg;
 		}
+		borne_inf = borne_sup;
+		++segg;
 	}
 }

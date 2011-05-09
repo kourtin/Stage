@@ -18,6 +18,10 @@ freenect::~freenect() {
 	}
 }
 
+void freenect::update() {
+	
+}
+
 bool freenect::depth_to(cv::Mat& o) {
 	if(kinect_)
 		return kinect_->prochaine_depth_map(o);
@@ -58,7 +62,7 @@ bool freenect::kinect_device::prochaine_depth_map(cv::Mat& out) {
 		m_.unlock();
 		// std::cout << "depth" << std::endl;
 		return true;
-	}	
+	}
 	m_.unlock();
 	return false;
 }

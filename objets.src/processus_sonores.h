@@ -4,6 +4,7 @@
 #include "liveosc.h"
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 /*
  * RAPPEL: Toujours connecter avec connecter_outlet0, deconnecter_outlet0 !
@@ -176,22 +177,6 @@ private:
 	}
 };
 
-// struct proxy_pd : public boite_pd {
-// 	proxy_pd(boite_pd* r) : boite_pd(compute_string_id(r->id(), "_proxy")), reference_(r) {
-// 		// Crée le proxy dans dyn~
-// 		creer();
-// 	}
-// 	virtual ~proxy_pd() {}
-// 	
-// 	virtual std::string classe() { return "proxy"; }
-// 
-// 	virtual void creer() {
-// 		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "newobj" << "." << id().c_str() << "list" << osc::EndMessage);
-// 	}
-// private:
-// 	boite_pd* reference_;
-// };
-
 struct processus_sonore : public boite_pd {
 	processus_sonore(std::string string_id, unsigned int control_inlet = 0) : boite_pd(string_id), control_inlet_(control_inlet) {}
 	
@@ -244,22 +229,30 @@ protected:
 };
 
 struct oscillateur : public source {
-	oscillateur(float f = 440.f) : freq_(f) {
+	oscillateur(float f = 440.f) : freq_(f), vol_(1.0) {
 		// On crée la boîte dans dyn~
 		creer();
 	}
 	virtual void creer() {
-		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "newobj" << "." << id().c_str() << "osc~" << freq_ << osc::EndMessage);
+		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "newobj" << "." << id().c_str() << "oscillateur" << osc::EndMessage);
 		source::creer();
 	}
 	float frequence() { return freq_; }
 	void frequence(float f) {
-		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "send" << id().c_str() << f << osc::EndMessage);
+		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "send" << proxy_id().c_str() << "freq" << f << osc::EndMessage);
 		freq_ = f;
+	}
+	float volume() { return vol_; }
+	void volume(float v) {
+		v = std::max(0.f, v);
+		v = std::min(v, 1.f);
+		vol_ = v;
+		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "send" << proxy_id().c_str() << "vol" << v << osc::EndMessage);
 	}
 	virtual std::string classe() { return "oscillateur"; }
 private:
 	float freq_;
+	float vol_;
 };
 
 struct looplayer : public source {
@@ -362,61 +355,5 @@ private:
 	float wet_;
 	float feedback_;
 };
-
-// // Modélise une boîte pd de cette façon :
-// //  _ _ (1 inlet signal à 1 seule connection, puis 1 inlet contrôle)
-// // | truc |
-// //  -   (1 outlet signal)
-// // TODO: Rajouter un proxy
-// struct processus_sonore {
-// 	typedef std::list<processus_sonore*> liste_connections_t;
-// 	typedef liste_connections_t::iterator iterator;
-// 	virtual ~processus_sonore() {}
-// 	virtual void connecter_inlet0(processus_sonore* src) {
-// 		if(!src) return;  // Parafoudre
-// 		
-// 	}
-// 	
-// 	virtual void connecter_outlet0(processus_sonore* dest) {
-// 		
-// 	}
-// 	
-// 	virtual void connecter_outlet0_au_master() {
-// 		if()
-// 	}
-// 	
-// 	virtual void connecter(processus_sonore* dest) {
-// 		if(!dest) return; // Parafoudre
-// 		// S'il existe une connection ailleurs, 
-// 		// Connection dans le patch root de l'outlet de ce processus à l'inlet de dest
-// 		liveosc_send::instance().send(liveosc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "conn" << "." << id() << 0 << dest->id() << 0 << osc::EndMessage);
-// 	}
-// 	processus_sonore* outlet() { return outlet_; }
-// 	virtual std::string id() = 0;
-// 	static unsigned int next_unique_id() { return next_unique_id_++; }
-// 	std::string compute_string_id(std::string prefix, unsigned int suffix) {
-// 		std::ostringstream oss;
-// 		oss << prefix << suffix;
-// 		return oss.str();
-// 	}
-// private:
-// 	processus_sonore* inlet_;
-// 	std::list<processus_sonore*> outlets_;
-// 	static unsigned int next_unique_id_;
-// };
-// 
-// struct source : public processus_sonore {
-// 	source() : id_(next_unique_id()), string_id_(compute_string_id("source", id_)) {}
-// 	virtual ~source() {}
-// 	virtual std::string id() { return string_id_; }
-// private:
-// 	unsigned int id_;
-// 	std::string string_id_;
-// };
-
-// struct fx : public processus_sonore {
-// private:
-// 	
-// };
 
 #endif /* end of include guard: PROCESSUS_SONORES_H_5QL0EYYL */

@@ -16,7 +16,7 @@ void miniaturiser2(cv::Mat original, cv::Mat reduit, unsigned int facteur = 2) {
 	}
 }
 
-kinectivision::kinectivision(kinect* k) : image_couleur_(cv::Size(640, 480), CV_8UC3), image_nb_(cv::Size(640, 480), CV_8UC1)/*, image_nb2_(cv::Size(320, 240), CV_8UC1)*/, image_processed_(cv::Size(640, 480), CV_8UC1), kinect_(k) {
+kinectivision::kinectivision(cv::Mat& img) : image_couleur_(img), image_nb_(cv::Size(640, 480), CV_8UC1)/*, image_nb2_(cv::Size(320, 240), CV_8UC1)*/, image_processed_(cv::Size(640, 480), CV_8UC1) {
 	sprintf(config_.file,"none");
 	readSettings(&config_);
 	
@@ -67,28 +67,25 @@ kinectivision::~kinectivision() {
 }
 
 void kinectivision::operator()(objet_store* store) {
-	if(!kinect_) return;
-	if(kinect_->img_to(image_couleur_)) {
-		cv::cvtColor(image_couleur_, image_nb_, CV_BGR2GRAY);
-		// unsigned char* src = image_couleur_.data;
-		// 		unsigned char* dest = image_nb_.data;
-		// 		for(int i=0; i<640*480; ++i) {
-		// 			float r = *src++ * 1.0 / 255;
-		// 			float g = *src++ * 1.0 / 255;
-		// 			float b = *src++ * 1.0 / 255;
-		// 			float gr = 0.2989 * r + 0.5870 * g + 0.1140 * b;
-		// 			*dest++ = static_cast<unsigned char>(gr / 1.0 * 255);
-		// 		}
-		// miniaturiser2(image_nb_, image_nb2_);
-		// std::copy(image_nb2_.data, image_nb2_.data + image_nb2_.cols * image_nb2_.rows, image_processed_.data);
-		// Processe
-		for(std::vector<FrameProcessor*>::iterator it = processors_.begin(); it != processors_.end(); ++it) {
-			(*it)->process(image_nb_.data,image_processed_.data);
-		}
-		
-		// Envoie les infos au store
-		if(store)
-			if(fiducialfinder_)
-				((FiducialFinder*)fiducialfinder_)->update(store);
+	cv::cvtColor(image_couleur_, image_nb_, CV_BGR2GRAY);
+	// unsigned char* src = image_couleur_.data;
+	// 		unsigned char* dest = image_nb_.data;
+	// 		for(int i=0; i<640*480; ++i) {
+	// 			float r = *src++ * 1.0 / 255;
+	// 			float g = *src++ * 1.0 / 255;
+	// 			float b = *src++ * 1.0 / 255;
+	// 			float gr = 0.2989 * r + 0.5870 * g + 0.1140 * b;
+	// 			*dest++ = static_cast<unsigned char>(gr / 1.0 * 255);
+	// 		}
+	// miniaturiser2(image_nb_, image_nb2_);
+	// std::copy(image_nb2_.data, image_nb2_.data + image_nb2_.cols * image_nb2_.rows, image_processed_.data);
+	// Processe
+	for(std::vector<FrameProcessor*>::iterator it = processors_.begin(); it != processors_.end(); ++it) {
+		(*it)->process(image_nb_.data,image_processed_.data);
 	}
+	
+	// Envoie les infos au store
+	if(store)
+		if(fiducialfinder_)
+			((FiducialFinder*)fiducialfinder_)->update(store);
 }

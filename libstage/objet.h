@@ -35,18 +35,19 @@ struct objet {
 	float x();
 	float y();
 	float z();
+	float r();
 	float x_c() { return x_; }
 	float y_c() { return y_; }
 	float z_c() { return z_; }
-	float r() { return r_; }
+	float r_c() { return r_; }
 	float v() { return v_; }
 	float a() { return a_; }
 	floatrect rect() { return rect_; }
 	void rect(floatrect r) { rect_ = r; }
 	bool present() { return present_; }
 	float rayon() { return rayon_; }
-	void attacher(comportement& c) { comportement_ = &c; }
-	void detacher(comportement& c) { comportement_ = 0; }
+	void attacher(comportement* c) { comportement_ = c; }
+	void detacher() { comportement_ = 0; }
 	bool est_attache() { return comportement_ != 0; }
 	comportement* comportement_attache() { return comportement_; }
 	objet_store& store() { return *store_; }

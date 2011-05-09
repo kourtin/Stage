@@ -16,16 +16,17 @@ struct couplage_virtuel {
 	float x() { return px_; }
 	float y() { return py_; }
 	float z() { return pz_; }
+	float r() { return pr_; }
 private:
 	void maj_position();
 	void maj_forces();
 private:
 	objet& objet_;
 	float k_, z_, zmilieu_, invm_;
-	float px_, py_, pz_;
-	float ax_, ay_, az_;
-	float fx_, fy_, fz_;
-	float ox_, oy_, oz_;
+	float px_, py_, pz_, pr_;
+	float ax_, ay_, az_, ar_;
+	float fx_, fy_, fz_, fr_;
+	float ox_, oy_, oz_, or_;
 	float dist_;
 };
 

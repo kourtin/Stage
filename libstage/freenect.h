@@ -25,6 +25,7 @@ struct freenect : public kinect {
 	freenect();
 	virtual void init();
 	virtual ~freenect();
+	virtual void update();
 	virtual bool depth_to(cv::Mat&);
 	virtual bool img_to(cv::Mat&);
 private:
