@@ -1,9 +1,13 @@
 #include "interface/objet_alpha.h"
 #include "comportements/oscillathor.h"
+#include "comportements/corde_guitare.h"
+#include "comportements/marteau.h"
 
 menu_affectation_objet::menu_affectation_objet() : menu("Affecter cet objet à") {
 	supporter_comportement<oscillathor>();
 	supporter_comportement<micro>();
+	supporter_comportement<corde_guitare>();
+	supporter_comportement<marteau>();
 }
 
 struct elt_detruire : public element_menu {

@@ -1,5 +1,8 @@
 #include "comportements/comportement.h"
+#include "son/source.h"
+#include "son/fx.h"
 #include <ctime>
+#include <sstream>
 
 double temps_actuel() { 
 	return std::clock() * 1000.0 / CLOCKS_PER_SEC;
@@ -30,7 +33,62 @@ void comportement::draw(ci::cairo::Context ctx, int w, int h) {
 	// ctx.setFont(fnt_ttl_);
 	ctx.setFontSize(15);
 	ctx.showText(classe());
-	// ci::gl::drawSolidCircle(ci::Vec2f(objet_attache().x() * w, objet_attache().y() * h), 10);
-	// ci::gl::drawStringCentered(classe(), , ci::Color(1,1,1), fnt_ttl_);
-	// ci::gl::drawSolidRect(ci::Rectf(objet_attache().x() * w - 10, objet_attache().y() * h - 10, objet_attache().x() * w + 10, objet_attache().y() * h + 10));
 }
+
+void comportement::draw_params(ci::cairo::Context ctx, int w, int h, liste_parametres* l) {
+	if(l) {
+		ctx.setFontSize(10);
+		float y = 0;
+		for(liste_parametres::iterator it = l->begin(); it != l->end(); ++it) {
+			parametre* p = *it;
+			ctx.moveTo(ci::Vec2f(objet_attache().x() * w, objet_attache().y() * h + y));
+			std::ostringstream oss;
+			oss << p->nom() << ": " << p->get_str();
+			ctx.showText(oss.str());
+			ctx.stroke();	
+			y += 10;
+		}
+	}
+}
+
+comportement_source::comportement_source(objet& o) : comportement(o), source_(0) {}
+comportement_source::~comportement_source() {}
+
+liste_parametres* comportement_source::parametres() { 
+	if(source_)
+		return &source_->parametres();
+	return 0;
+}
+
+void comportement_source::draw(ci::cairo::Context ctx, int w, int h) {
+	comportement::draw(ctx, w, h);
+	
+	// Affichage des paramètres
+	if(source_) {
+		draw_params(ctx, w, h, &source_->parametres());
+	}
+}
+
+comportement_fx::comportement_fx(objet& o) : comportement(o), fx_(0) {}
+comportement_fx::~comportement_fx() {}
+
+liste_parametres* comportement_fx::parametres() { 
+	if(fx_)
+		return &fx_->parametres();
+	return 0;
+}
+
+void comportement_fx::draw(ci::cairo::Context ctx, int w, int h) {
+	comportement::draw(ctx, w, h);
+
+	// Affichage des paramètres
+	if(fx_) {
+		draw_params(ctx, w, h, &fx_->parametres());
+	}
+}
+
+comportement_ctrl::comportement_ctrl(objet& o) : comportement(o) {}
+comportement_ctrl::~comportement_ctrl() {}
+
+comportement_tool::comportement_tool(objet& o) : comportement(o) {}
+comportement_tool::~comportement_tool() {}

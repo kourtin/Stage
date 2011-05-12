@@ -29,8 +29,8 @@ struct objet {
 	float z_c() { return z_; }
 	float r_c() { return r_; }
 	ci::Rectf rect() { return rect_; }
-	ci::Rectf rect_abs() { return rect() + ci::Vec2f(x(),y()); }
-	ci::Rectf rect_abs_scaled(ci::Vec2f scl) { ci::Rectf r = rect_abs(); return ci::Rectf(r.getX1() * scl.x, r.getY1() * scl.y, r.getX2() * scl.x, r.getY2() * scl.y); }
+	ci::Rectf rect_abs();
+	ci::Rectf rect_abs_scaled(ci::Vec2f scl);
 	void rect(ci::Rectf r) { rect_ = r; }
 	bool present() { return present_; }
 	void attacher(comportement* c) { comportement_ = c; }
@@ -39,11 +39,11 @@ struct objet {
 	comportement* comportement_attache() { return comportement_; }
 	objet_store* store() { return store_; }
 	
-	float distance(objet& o) { return ci::Vec2f(x(), y()).distance(ci::Vec2f(o.x(), o.y())); }
-	bool collision(objet& o) { return rect_abs().intersects(o.rect_abs()); }
-	bool contient(float x, float y) { return rect_abs().contains(ci::Vec2f(x,y)); }
-	bool contient(ci::Vec2f p) { return rect_abs().contains(p); }
-	bool est_dans(ci::Rectf r) { return r.intersects(rect_abs()); }
+	float distance(objet& o);
+	bool collision(objet& o);
+	bool contient(float x, float y);
+	bool contient(ci::Vec2f p);
+	bool est_dans(ci::Rectf r);
 private:
 	friend class couplage_virtuel;
 	int id_;

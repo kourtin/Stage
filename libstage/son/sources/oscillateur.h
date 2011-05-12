@@ -6,14 +6,11 @@
 struct oscillateur : public source {
 	oscillateur(float f = 440.f);
 	virtual void creer();
-	float frequence() { return freq_; }
-	void frequence(float f);
-	float volume() { return vol_; }
-	void volume(float v);
+	parametre_frequence& frequence() { return freq_; }
 	virtual std::string classe() { return "oscillateur"; }
+	void frequence_changed();
 private:
-	float freq_;
-	float vol_;
+	parametre_frequence freq_;
 };
 
 #endif /* end of include guard: OSCILLATEUR_H_6O1348OZ */

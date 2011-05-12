@@ -5,7 +5,7 @@
 #include "son/sources/oscillateur.h"
 #include "son/sources/line_in.h"
 
-struct oscillathor : public comportement {
+struct oscillathor : public comportement_source {
 	oscillathor(objet& o);
 	virtual void draw(ci::cairo::Context ctx, int w, int h);
 	virtual void operator()();
@@ -13,12 +13,9 @@ struct oscillathor : public comportement {
 	static std::string titre() { return "oscillathor"; }
 private:
 	oscillateur oscil_;
-	float frequence_, volume_;
-	// line_in line;
-	// simple_delay d1_;
 };
 
-struct micro : public comportement {
+struct micro : public comportement_source {
 	micro(objet& o);
 	virtual void draw(ci::cairo::Context ctx, int w, int h);
 	virtual void operator()();

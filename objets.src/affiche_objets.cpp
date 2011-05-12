@@ -89,11 +89,11 @@ struct affiche_objets : public AppBasic {
 			ctx.line(position, Vec2f(position.x + 20*cos(o.r()), position.y + 20* sin(o.r())));
 			ctx.stroke();
 			
-			std::ostringstream oss2;
-			oss2 << o.rect_abs();
-			ctx.moveTo(position_c);
-			ctx.showText(oss2.str());
-			ctx.stroke();
+			// std::ostringstream oss2;
+			// 			oss2 << o.rect_abs();
+			// 			ctx.moveTo(position_c);
+			// 			ctx.showText(oss2.str());
+			// 			ctx.stroke();
 			
 			ctx.setSource(ColorA(1.0 * (o.id() % 2 == 0), 1.0 * (o.id() % 3 == 0), 1.0 *(o.id() % 2 == 1), (o.present() ? 0.9 : 0.3)));
 			// if(o.present()) {
