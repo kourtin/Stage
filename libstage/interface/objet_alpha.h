@@ -32,6 +32,7 @@ struct menu_edition_objet : public menu {
 
 struct objet_alpha : public comportement {
 	objet_alpha(objet& o);
+	virtual ~objet_alpha();
 	virtual void draw(ci::cairo::Context ctx, int w, int h);
 	virtual void operator()();
 	virtual std::string classe() { return titre(); }
@@ -43,7 +44,7 @@ private:
 	double temporisation_;
 	menu_edition_objet mnu_ed_;
 	menu* menu_selectionne_;
-	menu_draw_lineaire mnu_drw_;
+	menu_draw* mnu_drw_;
 };
 
 #endif /* end of include guard: OBJET_ALPHA_H_DZTB9LIT */

@@ -1,7 +1,7 @@
 #if !defined(CORDE_GUITARE_H_YFY96U1X)
 #define CORDE_GUITARE_H_YFY96U1X
 
-#include "comportements/comportement.h"
+#include "comportements/comportement_source.h"
 #include "son/sources/karplus_strong.h"
 
 struct corde_guitare : public comportement_source {

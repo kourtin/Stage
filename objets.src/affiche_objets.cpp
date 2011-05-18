@@ -29,14 +29,22 @@ struct affiche_objets : public AppBasic {
 		gl::enableAlphaBlending(true);
 		
 		controle_.activer_camera(true);
+		// controle_.activer_kinect(true);
 		controle_.activer_sonde_artkplus(true);
+		// controle_.activer_sonde_kinectsegmentor(true);
+		// controle_.activer_sonde_tuio(true);
 	}
 	
 	void update() {
 		controle_.update();
-		image_cam_.update(controle_.img());
-		if(controle_.store().objets().size() >= 1 && alphi_ == 0 && (*(*(controle_.store().begin()))).id() > 0) {
-			alphi_ = new objet_alpha(*(*(controle_.store().begin())));
+		if(controle_.camera_active() || controle_.kinect_active())
+			image_cam_.update(controle_.img());
+		// if(controle_.store().objets().size() >= 1 && alphi_ == 0 && (*(*(controle_.store().begin()))).id() > 0) {
+		// 			alphi_ = new objet_alpha(*(*(controle_.store().begin())));
+		// 		}
+		for(objet_store::iterator it = controle_.store().begin(); !alphi_ && it != controle_.store().end(); ++it) {
+			if((*it)->id() == 1208/*35*/)
+				alphi_ = new objet_alpha(*(*it));
 		}
 	}
 	
@@ -78,29 +86,24 @@ struct affiche_objets : public AppBasic {
 			Vec2f position = Vec2f(o.x() * getWindowWidth(), o.y() * getWindowHeight());
 			Vec2f position_c = Vec2f(o.x_c() * getWindowWidth(), o.y_c() * getWindowHeight());
 			
-			ctx.setSource(ColorA(1.0 * (o.id() % 2 == 0), 1.0 * (o.id() % 3 == 0), 1.0 * (o.id() % 2 == 1), 0.3));
+			// ctx.setSource(ColorA(1.0 * (o.id() % 2 == 0), 1.0 * (o.id() % 3 == 0), 1.0 * (o.id() % 2 == 1), 0.3));
+			ctx.setSource(ColorA(o.couleur(), (o.present() ? 0.7 : 0.3)));
 			ctx.circle(position_c, 2);
 			ctx.fill();
 			ctx.setLineWidth(1);
 			ctx.line(position, position_c);
 			ctx.stroke();
-			ctx.setSourceRgba(1, 1, 1, 0.7);
+			// ctx.setSourceRgba(1, 1, 1, 0.7);
 			ctx.setLineWidth(3);
 			ctx.line(position, Vec2f(position.x + 20*cos(o.r()), position.y + 20* sin(o.r())));
 			ctx.stroke();
 			
-			// std::ostringstream oss2;
-			// 			oss2 << o.rect_abs();
-			// 			ctx.moveTo(position_c);
-			// 			ctx.showText(oss2.str());
-			// 			ctx.stroke();
-			
-			ctx.setSource(ColorA(1.0 * (o.id() % 2 == 0), 1.0 * (o.id() % 3 == 0), 1.0 *(o.id() % 2 == 1), (o.present() ? 0.9 : 0.3)));
+			// ctx.setSource(ColorA(1.0 * (o.id() % 2 == 0), 1.0 * (o.id() % 3 == 0), 1.0 *(o.id() % 2 == 1), (o.present() ? 0.9 : 0.3)));
 			// if(o.present()) {
-				Rectf r = o.rect_abs_scaled(Vec2f(getWindowWidth(), getWindowHeight()));
-				ctx.setLineWidth(1);
-				ctx.rectangle(r);
-				ctx.stroke();
+			Rectf r = o.rect_abs_scaled(Vec2f(getWindowWidth(), getWindowHeight()));
+			ctx.setLineWidth(1);
+			ctx.rectangle(r);
+			ctx.stroke();
 			// }
 			ctx.circle(position, 5);
 			ctx.fill();
@@ -124,7 +127,7 @@ struct affiche_objets : public AppBasic {
 	
 	void prepareSettings(Settings* settings) {
 		settings->setWindowSize(640, 480);
-		settings->setFrameRate(25.f);
+		settings->setFrameRate(30.f);
 		settings->setTitle("Tritrilipompon");
 	}
 	void keyUp(KeyEvent e) {

@@ -8,29 +8,31 @@ note_slider::note_slider(objet& o) : comportement_ctrl(o) {
 }
 
 void note_slider::draw(ci::cairo::Context ctx, int w, int h) {
-	comportement::draw(ctx, w, h);
+	comportement_ctrl::draw(ctx, w, h);
 }
 
 void note_slider::operator()() {
-	// // std::cout << "caca" << std::endl;
-	// double note = karplus_.note().min() + objet_attache().x() * (karplus_.note().max() - karplus_.note().min());
-	// karplus_.note().set(note);
-	// 
-	// if(!objet_attache().store())
-	// 	return;
-	// 
-	// // std::cout << "caca2" << std::endl;
-	// static objet* deja_en_collision = 0;
-	// 
-	// objet* collision = 0;
-	// for(objet_store::iterator it = objet_attache().store()->begin(); it != objet_attache().store()->end() && !collision; ++it) {
-	// 	if(objet_attache().collision(*(*it)))
-	// 		collision = *it;
-	// }
-	// 
-	// if(collision != deja_en_collision) {
-	// 	if(deja_en_collision && collision)
-	// 		karplus_.bang();
-	// 	deja_en_collision = collision;
-	// }
+	comportement_ctrl::operator()();
+	if(objet_associe() && objet_associe()->est_attache()) {
+		parametre* p = objet_associe()->comportement_attache()->parametres()->get_param("note");
+		if(p) {
+			double note = p->min() + objet_attache().y() * (p->max() - p->min());
+			p->set(note);
+		}  
+	}
+}
+
+void note_slider::maj_objet_associe(objet* ancien) {
+	if(!parametres()) return;
+	parametre* p = 0;
+	parametre* pancien = 0;
+	if(objet_associe() && objet_associe()->est_attache())
+		p = objet_associe()->comportement_attache()->parametres()->get_param("note");
+	if(ancien && ancien->est_attache())
+		pancien = ancien->comportement_attache()->parametres()->get_param("note");
+		
+	if(pancien)
+		parametres()->remove(pancien);
+	if(p)
+		parametres()->add(p);
 }

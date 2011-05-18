@@ -64,6 +64,16 @@ void artoolkitplus::operator()(objet_store* store) {
 	int nb_marqueurs;
 	int marker_id;
 	
+	// Eteint les marqueurs qu'il faut
+	// for(liste_alive::iterator it = alive_.begin(); it != alive_.end(); ++it) {
+		// alive_info inf = *it;
+		// if(inf.second > temps_max_alive_)
+	// }
+	
+	for(objet_store::iterator it = store->begin(); it != store->end(); ++it) {
+		(*it)->present(false);
+	}
+	
 	// Détecte des marqueurs
 	if((marker_id = tracker_->arDetectMarker(image_nb_.data, threshold, &infos, &nb_marqueurs)) < 0)
 		return;
@@ -100,7 +110,7 @@ void artoolkitplus::operator()(objet_store* store) {
 		float x, y, z;
 		angles_euler(patt_tr, x, y, z);
 		// On a l'angle de rotation par rapport à la camera
-		o.r(z);
+		o.r(z + M_PI);
 		// On a une estimation de la profondeur
 		o.z(patt_tr[2][3] / 500);
 	}

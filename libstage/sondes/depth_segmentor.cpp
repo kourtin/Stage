@@ -139,7 +139,7 @@ depth_segmentor::depth_segmentor(cv::Mat& img) :
 	depth_map_(img), 
 	image_depth_(cv::Size(640, 480), CV_8UC1), 
 	petite_image_(cv::Size(640 / downscale_, 480 / downscale_), CV_8UC1), 
-	median_size_(9), kernel_bandwidth_(1.0), segments_(30) {
+	median_size_(9), kernel_bandwidth_(0.3), segments_(30) {
 	init_segments();
 }
 

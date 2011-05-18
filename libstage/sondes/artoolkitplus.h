@@ -4,6 +4,7 @@
 #include "sondes/sonde_environnementale.h"
 #include <opencv/cv.h>
 #include <vector>
+#include <utility>
 
 class kinect;
 namespace ARToolKitPlus {
@@ -19,6 +20,10 @@ private:
 	cv::Mat& image_couleur_;
 	cv::Mat image_nb_, image_processed_;
 	ARToolKitPlus::TrackerSingleMarker *tracker_;
+	// typedef std::pair<objet*,double> alive_info;
+	// typedef std::vector<alive_info> liste_alive;
+	// liste_alive alive_;
+	// double temps_max_alive_;
 };
 
 #endif /* end of include guard: ARKINECTOOLKITPLUS_H_49QQK61C */

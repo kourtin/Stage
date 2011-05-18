@@ -1,7 +1,7 @@
 #include "son/sources/oscillateur.h"
 #include "son/opensoundcontrol.h"
 
-oscillateur::oscillateur(float f) {
+oscillateur::oscillateur(float f) : ancienne_freq_(0) {
 	// On crée la boîte dans dyn~
 	creer();
 	// On associe des callbacks aux paramètres
@@ -18,8 +18,8 @@ void oscillateur::creer() {
 }
 
 void oscillateur::frequence_changed() {
-	static float f = 0;
-	if(freq_.get() != f) {
+	if(freq_.get() != ancienne_freq_) {
 		osc_send::instance().send(osc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "send" << proxy_id().c_str() << "freq" << freq_.get() << osc::EndMessage);
+		ancienne_freq_ = freq_.get();
 	}
 }

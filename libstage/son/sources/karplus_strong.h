@@ -14,6 +14,7 @@ struct karplus_strong : public source {
 private:
 	parametre_note note_;
 	parametre_bang bang_;
+	float ancienne_note_;
 };
 
 #endif /* end of include guard: KARPLUS_STRONG_H_6PWTMYG9 */

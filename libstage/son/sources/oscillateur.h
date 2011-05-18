@@ -11,6 +11,7 @@ struct oscillateur : public source {
 	void frequence_changed();
 private:
 	parametre_frequence freq_;
+	float ancienne_freq_;
 };
 
 #endif /* end of include guard: OSCILLATEUR_H_6O1348OZ */

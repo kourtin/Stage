@@ -1,8 +1,5 @@
 #include "comportements/corde_guitare.h"
 
-#include <ctime>
-#include <iostream>
-
 corde_guitare::corde_guitare(objet& o) : comportement_source(o) {
 	set_source(&karplus_);
 }
@@ -21,8 +18,9 @@ void corde_guitare::draw(ci::cairo::Context ctx, int w, int h) {
 
 void corde_guitare::operator()() {
 	// std::cout << "caca" << std::endl;
-	double note = karplus_.note().min() + objet_attache().x() * (karplus_.note().max() - karplus_.note().min());
-	karplus_.note().set(note);
+	// double note = karplus_.note().min() + objet_attache().y() * (karplus_.note().max() - karplus_.note().min());
+	
+	// karplus_.note().set(note);
 	
 	// if(!objet_attache().store())
 	// 		return;

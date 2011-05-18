@@ -20,4 +20,14 @@ struct menu_draw_lineaire : public menu_draw {
 	virtual void draw(ci::cairo::Context ctx, int w, int h);
 };
 
+struct menu_draw_circulaire : public menu_draw {
+	menu_draw_circulaire(menu* m) : menu_draw(m) {}
+	virtual ~menu_draw_circulaire() {}
+	void attacher_a(objet* x) { o_ = x; }
+	objet* objet_attache() { return o_; }
+	virtual void draw(ci::cairo::Context ctx, int w, int h);
+private:
+	objet* o_;
+};
+
 #endif /* end of include guard: MENU_DRAW_H_9I419LL8 */

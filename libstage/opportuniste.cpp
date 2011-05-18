@@ -75,7 +75,7 @@ void opportuniste::activer_kinect(bool b) {
 		delete kinect_;
 		kinect_ = 0;
 	}
-	#if defined(COMPILES_WITH_LIB_openni)
+	#if /*defined(PIPICACA) */defined(COMPILES_WITH_LIB_openni)
 	if(b) {
 		activer_camera(false);
 		kinect_ = new openni;
@@ -124,7 +124,7 @@ void opportuniste::update() {
 	for(objet_store::iterator it = store_.begin(); it != store_.end(); ++it) {
 		if((*it)->est_attache())
 			(*it)->comportement_attache()->operator()();
-		(*it)->present(false);
+		// (*it)->present(false);
 	}
 }
 

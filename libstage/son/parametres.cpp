@@ -32,6 +32,15 @@ void liste_parametres::set(std::string nom, float v) {
 	}
 }
 
+parametre* liste_parametres::get_param(std::string nom) {
+	iterator it = std::find_if(param_.begin(), param_.end(), pred_nom(nom));
+	if(it != param_.end() && *it) {
+		return (*it);
+	} else {
+		return 0;
+	}
+}
+
 float liste_parametres::get(std::string nom) {
 	iterator it = std::find_if(param_.begin(), param_.end(), pred_nom(nom));
 	if(it != param_.end() && *it) {

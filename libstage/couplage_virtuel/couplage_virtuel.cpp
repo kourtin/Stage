@@ -1,7 +1,12 @@
 #include "couplage_virtuel/couplage_virtuel.h"
 #include "couplage_virtuel/thread_couplage.h"
-
-couplage_virtuel::couplage_virtuel(objet& o) : objet_(o), k_(0.002), z_(0.05), zmilieu_(0.4), invm_(1), px_(o.x_), py_(o.y_), pz_(o.z_), pr_(o.r_), ax_(px_), ay_(py_), az_(pz_), ar_(pr_), fx_(0), fy_(0), fz_(0), fr_(0), ox_(o.x_c()), oy_(o.y_c()), oz_(o.z_c()), or_(o.r_c()) {
+// valeurs cool :
+// k = 0.002
+// z = 0.05
+// zmilieu = 0.4
+// invm = 1
+// 1ms
+couplage_virtuel::couplage_virtuel(objet& o) : objet_(o), k_(0.08), z_(0.05), zmilieu_(0.4), invm_(1), px_(o.x_), py_(o.y_), pz_(o.z_), pr_(o.r_), ax_(px_), ay_(py_), az_(pz_), ar_(pr_), fx_(0), fy_(0), fz_(0), fr_(0), ox_(o.x_c()), oy_(o.y_c()), oz_(o.z_c()), or_(o.r_c()) {
 	thread_couplage::ajouter(*this);
 	
 	// Calcule les distances sur les axes

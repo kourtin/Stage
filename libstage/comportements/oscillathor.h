@@ -1,7 +1,7 @@
 #if !defined(OSCILLATHOR_H_ZR1XVAN5)
 #define OSCILLATHOR_H_ZR1XVAN5
 
-#include "comportements/comportement.h"
+#include "comportements/comportement_source.h"
 #include "son/sources/oscillateur.h"
 #include "son/sources/line_in.h"
 

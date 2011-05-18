@@ -31,7 +31,7 @@ struct opportuniste {
 	void activer_camera(bool);
 	bool camera_active() { return camera_ != 0; }
 	void update();
-	ci::ImageSourceRef img() { return ci::fromOcv(img_); }
+	ci::Surface8u img() { return ci::Surface8u(img_.data, 640, 480, 640*3, ci::SurfaceChannelOrder(ci::SurfaceChannelOrder::RGB));/* ci::fromOcv(img_) */; }
 	objet_store& store() { return store_; }
 private:
 	cv::Mat img_, depth_;

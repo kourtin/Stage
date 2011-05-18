@@ -1,18 +1,18 @@
-#if !defined(MARTEAU_H_C9GVQN5E)
-#define MARTEAU_H_C9GVQN5E
+#if !defined(TETE_LECTURE_H_AS09N7HG)
+#define TETE_LECTURE_H_AS09N7HG
 
 #include "comportements/comportement_tool.h"
 #include <list>
 
-struct marteau : public comportement_tool {
+struct tete_lecture : public comportement_tool {
 	typedef std::list<objet*> liste_objets;
-	marteau(objet& o);
+	tete_lecture(objet& o);
 	virtual void draw(ci::cairo::Context ctx, int w, int h);
 	virtual void operator()();
 	virtual std::string classe() { return titre(); }
-	static std::string titre() { return "marteau"; }
+	static std::string titre() { return "tete de lecture"; }
 private:
 	liste_objets deja_en_collision_;
 };
 
-#endif /* end of include guard: MARTEAU_H_C9GVQN5E */
+#endif /* end of include guard: TETE_LECTURE_H_AS09N7HG */

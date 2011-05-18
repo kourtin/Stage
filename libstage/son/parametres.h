@@ -21,6 +21,7 @@ struct liste_parametres {
 	void remove(parametre*);
 	void set(std::string, float);
 	float get(std::string);
+	parametre* get_param(std::string nom);
 private:
 	liste_params param_;
 };

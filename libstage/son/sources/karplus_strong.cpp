@@ -1,7 +1,7 @@
 #include "son/sources/karplus_strong.h"
 #include "son/opensoundcontrol.h"
 
-karplus_strong::karplus_strong() {
+karplus_strong::karplus_strong() : ancienne_note_(0) {
 	// On crée la boîte dans dyn~
 	creer();
 	// On associe des callbacks aux paramètres
@@ -20,10 +20,9 @@ void karplus_strong::creer() {
 }
 
 void karplus_strong::note_changed() {
-	static float f = 0;
-	if(note_.get() != f) {
+	if(note_.get() != ancienne_note_) {
 		osc_send::instance().send(osc_send::instance().new_packet() << osc::BeginMessage("/dyn") << "send" << proxy_id().c_str() << "note" << note_.get() << osc::EndMessage);
-		f = note_.get();
+		ancienne_note_ = note_.get();
 	}
 }
 

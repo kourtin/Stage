@@ -72,7 +72,7 @@ nite_ldflags =
 
 # lib: stage
 stage_dir = libstage
-stage_cpps = $(shell find $(stage_dir)/ -type f -name '*.cpp')
+stage_cpps = $(shell find $(stage_dir) -type f -name '*.cpp')
 stage_objs = $(patsubst %.cpp,%.o,$(stage_cpps))
 stage_cppflags = -I$(stage_dir)
 stage_deps = $(stage_objs)
@@ -116,7 +116,7 @@ $(foreach programme, $(programmes), $(eval $(programme)_objs = $(patsubst %.cpp,
 ###
 # $(call make-depend,source-file,object-file,depend-file)
 define make-depend
-	gcc -MM -MF dep/$(notdir $3) -MP -MT $2 $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) $1
+	g++ -MM -MF dep/$(notdir $3) -MP -MT $2 $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) $1
 endef
 ###
 
@@ -126,6 +126,11 @@ endef
 .SECONDARY:
 
 all: $(ctmf_lib) $(oscpack_lib) $(reactivision_lib) $(artoolkitplus_lib) $(tuio_lib) $(addsuffix .app,$(programmes))
+
+# Inclut les dépendances des fichiers sources
+ifneq "$(MAKECMDGOALS)" "clean"
+-include $(addprefix dep/,$(notdir $(subst .o,.d,$(stage_objs) $(addsuffix _objs,$(programmes)))))
+endif
 
 $(oscpack_lib):
 	CC="gcc -m32" CXX="g++ -m32" make liboscpack.a --directory=$(oscpack_dir)
@@ -156,14 +161,14 @@ $(tuio_lib):
 
 %.o: %.cpp
 	$(call make-depend,$<,$@,$(subst .o,.d,$@))
-	$(COMPILE.cpp) $(OUTPUT_OPTION) $^
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
 
 #%.o: %.cxx
 #	$(COMPILE.cpp) $(OUTPUT_OPTION) $^
 
 %.o: %.c
 	$(call make-depend,$<,$@,$(subst .o,.d,$@))
-	$(COMPILE.c) $(OUTPUT_OPTION) $^
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
@@ -173,8 +178,3 @@ clean:
 .SECONDEXPANSION:
 $(programmes): $$($$@_objs) $(librairies_deps)
 	$(LINK.cpp) $(OUTPUT_OPTION) $^
-
-# Inclut les dépendances des fichiers sources
-ifneq "$(MAKECMDGOALS)" "clean"
--include $(addprefix dep/,$(notdir $(subst .o,.d,$(objects))))
-endif
