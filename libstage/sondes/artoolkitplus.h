@@ -9,6 +9,7 @@
 class kinect;
 namespace ARToolKitPlus {
 	class TrackerSingleMarker;
+	class TrackerMultiMarker;
 }
 
 struct artoolkitplus : public sonde_primaire {
@@ -20,6 +21,7 @@ private:
 	cv::Mat& image_couleur_;
 	cv::Mat image_nb_, image_processed_;
 	ARToolKitPlus::TrackerSingleMarker *tracker_;
+	ARToolKitPlus::TrackerMultiMarker *tracker_world_;
 	// typedef std::pair<objet*,double> alive_info;
 	// typedef std::vector<alive_info> liste_alive;
 	// liste_alive alive_;

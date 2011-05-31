@@ -25,7 +25,7 @@ void oscillathor::draw(ci::cairo::Context ctx, int w, int h) {
 }
 
 void oscillathor::operator()() {
-	oscil_.frequence().set(objet_attache().x()*440);
+	// oscil_.frequence().set(objet_attache().x()*440);
 }
 
 micro::micro(objet& o) : comportement_source(o) {

@@ -5,6 +5,11 @@
 #include <cinder/Color.h>
 
 ci::Color randColor() {
+	static bool randomized = false;
+	if(!randomized) {
+		randomized = true;
+		ci::Rand::randomize();
+	}
 	return ci::Color(ci::CM_HSV, ci::Rand::randFloat(), 0.5f, 1.f);
 }
 

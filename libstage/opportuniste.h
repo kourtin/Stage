@@ -13,6 +13,7 @@
 #include "video/camera.h"
 #include <opencv/cv.h>
 #include "CinderOpenCV.h"
+#include <boost/thread/thread.hpp>
 #include <vector>
 
 struct opportuniste {
@@ -33,6 +34,7 @@ struct opportuniste {
 	void update();
 	ci::Surface8u img() { return ci::Surface8u(img_.data, 640, 480, 640*3, ci::SurfaceChannelOrder(ci::SurfaceChannelOrder::RGB));/* ci::fromOcv(img_) */; }
 	objet_store& store() { return store_; }
+	void run_thread();
 private:
 	cv::Mat img_, depth_;
 	sonde_environnementale* sonde_artkplus_;
@@ -42,6 +44,7 @@ private:
 	objet_store store_;
 	kinect* kinect_;
 	camera* camera_;
+	boost::thread thready_;
 };
 
 #endif /* end of include guard: OPPORTUNISTE_H_S3TZOH4A */

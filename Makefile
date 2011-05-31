@@ -154,6 +154,7 @@ $(tuio_lib):
 	@cat share/Info.plist | sed s/Stage/$^/g > $@/Contents/Info.plist
 	@cp share/PkgInfo $@/Contents
 	@cp share/no_distortion.cal $@/Contents/Resources
+	@cp share/worldreference.cfg $@/Contents/Resources
 	@cp $(reactivision_dir)/macosx/camera.xml $@/Contents/Resources
 	@cp $(reactivision_dir)/macosx/reacTIVision.xml $@/Contents/Resources
 	@cp $(reactivision_dir)/symbols/amoeba/*.trees $@/Contents/Resources

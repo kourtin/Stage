@@ -24,6 +24,7 @@
 #include "son/master_pd.h"
 #include "comportements/comportement.h"
 #include <opencv/cv.h>
+#include <boost/thread/xtime.hpp>
 #include <algorithm>
 
 void opportuniste::activer_sonde_artkplus(bool b) {
@@ -111,24 +112,43 @@ void opportuniste::update() {
 	if(camera_active()) {
 		camera_->img_to(img_);
 	}
-	// Met à jour les sondes
-	if(sonde_artkplus_activee())
-		(*sonde_artkplus_)(&store_);
-	if(sonde_reactivision_activee())
-		(*sonde_reactivision_)(&store_);
-	if(sonde_tuio_activee())
-		(*sonde_tuio_)(&store_);
-	if(sonde_kinectsegmentor_activee())
-		(*sonde_kinectsegmentor_)(&store_);
+	
+	// // Met à jour les sondes
+	// if(sonde_artkplus_activee())
+	// 	(*sonde_artkplus_)(&store_);
+	// if(sonde_reactivision_activee())
+	// 	(*sonde_reactivision_)(&store_);
+	// if(sonde_tuio_activee())
+	// 	(*sonde_tuio_)(&store_);
+	// if(sonde_kinectsegmentor_activee())
+	// 	(*sonde_kinectsegmentor_)(&store_);
+	
 	// Exécute les comportements
 	for(objet_store::iterator it = store_.begin(); it != store_.end(); ++it) {
-		if((*it)->est_attache())
+		if((*it)->est_vraiment_attache())
 			(*it)->comportement_attache()->operator()();
 		// (*it)->present(false);
 	}
 }
 
-opportuniste::opportuniste() : img_(cv::Size(640, 480), CV_8UC3), depth_(cv::Size(640, 480), CV_16UC1), sonde_artkplus_(0), sonde_reactivision_(0), sonde_kinectsegmentor_(0), sonde_tuio_(0), kinect_(0), camera_(0) {
+void opportuniste::run_thread() {
+	for(;;) {
+		// update();
+		// Met à jour les sondes
+		if(sonde_artkplus_activee())
+			(*sonde_artkplus_)(&store_);
+		if(sonde_reactivision_activee())
+			(*sonde_reactivision_)(&store_);
+		if(sonde_tuio_activee())
+			(*sonde_tuio_)(&store_);
+		if(sonde_kinectsegmentor_activee())
+			(*sonde_kinectsegmentor_)(&store_);
+		// Attend 33ms
+		boost::this_thread::sleep(boost::posix_time::milliseconds(33));
+	}
+}
+
+opportuniste::opportuniste() : img_(cv::Size(640, 480), CV_8UC3), depth_(cv::Size(640, 480), CV_16UC1), sonde_artkplus_(0), sonde_reactivision_(0), sonde_kinectsegmentor_(0), sonde_tuio_(0), kinect_(0), camera_(0), thready_(boost::bind(&opportuniste::run_thread, this)) {
 	thread_couplage::init();
 	master_pd::instance();
 }

@@ -7,8 +7,6 @@
 #include <cinder/cairo/Cairo.h>
 #include <string>
 
-double temps_actuel();
-
 struct comportement {
 	enum type { type_autre, type_source, type_fx, type_ctrl, type_tool };
 	comportement(objet& o);
@@ -23,8 +21,10 @@ struct comportement {
 	virtual ci::Color couleur() { return couleur_; }
 	virtual void couleur(ci::Color c) { couleur_ = c;}
 	virtual void couleur(bool) { couleur_ = ci::Color(0.5, 0.5, 0.5); }
+	virtual bool provisoire() { return false; }
 protected:
 	virtual void draw_params(ci::cairo::Context ctx, int w, int h, liste_parametres* l);
+	bool afficher_nom_;
 private:
 	objet& objet_;
 	ci::Color couleur_;

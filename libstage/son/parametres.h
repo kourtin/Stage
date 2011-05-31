@@ -47,16 +47,18 @@ private:
 };
 
 struct parametre_volume : public parametre {
-	parametre_volume() : parametre("volume") {}
+	parametre_volume() : parametre(id()) {}
 	virtual ~parametre_volume() {}
+	static std::string id() { return "volume"; }
 };
 
 struct parametre_note : public parametre {
-	parametre_note() : parametre("note") {}
+	parametre_note() : parametre(id()) {}
 	virtual ~parametre_note() {}
 	virtual float min() { return 23; }
 	virtual float max() { return 75; }
 	virtual std::string get_str() { return notes_italien[static_cast<unsigned int>(get()) % 12]; }
+	static std::string id() { return "note"; }
 protected:
 	virtual void internal_set(float f) { parametre::internal_set(f); x_ = static_cast<unsigned int>(x_); }
 private:
@@ -65,20 +67,22 @@ private:
 };
 
 struct parametre_frequence : public parametre {
-	parametre_frequence() : parametre("frequence") {}
+	parametre_frequence() : parametre(id()) {}
 	virtual ~parametre_frequence() {}
 	virtual float min() { return 10; }
 	virtual float max() { return 20000; }
 	virtual std::string get_str() { std::ostringstream oss; oss << get() << "Hz"; return oss.str(); }
+	static std::string id() { return "frequence"; }
 };
 
 struct parametre_bang : public parametre {
-	parametre_bang() : parametre("bang") {}
+	parametre_bang() : parametre(id()) {}
 	virtual ~parametre_bang() {}
 	virtual float min() { return 0; }
 	virtual float max() { return 0; }
 	virtual float get() { x_= 0; return 0; }
 	virtual std::string get_str() { return "<bang>"; }
+	static std::string id() { return "bang"; }
 protected:
 	virtual void internal_set(float f) { x_ = 1; }
 };

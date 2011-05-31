@@ -35,7 +35,7 @@ void couplage_virtuel::maj_position() {
 	float dx = px_ - ax_;
 	float dy = py_ - ay_;
 	float dz = pz_ - az_;
-	float dr = pr_ - ar_;
+	// float dr = pr_ - ar_;
 
 	// Sauvegarde les anciennes positions
 	ax_ = px_;
@@ -68,7 +68,7 @@ void couplage_virtuel::maj_position() {
 }
 
 void couplage_virtuel::maj_forces() {
-	static float distra = 0;
+	// static float distra = 0;
 	// Calcule les distances sur les axes
 	float dist_x = px_ - ox_;
 	float dist_y = py_ - oy_;

@@ -1,40 +1,12 @@
 #include "interface/objet_alpha.h"
-#include "comportements/oscillathor.h"
-#include "comportements/corde_guitare.h"
-#include "comportements/marteau.h"
-#include "comportements/tete_lecture.h"
-#include "comportements/note_slider.h"
+#include "temps.h"
 
-menu_affectation_objet::menu_affectation_objet() : menu("Affecter cet objet à") {
-	// supporter_comportement<oscillathor>();
-	// supporter_comportement<micro>();
-	supporter_comportement<corde_guitare>();
-	supporter_comportement<marteau>();
-	// supporter_comportement<tete_lecture>();
-	supporter_comportement<note_slider>();
-}
-
-struct elt_detruire : public element_menu {
-	std::string titre() { return "Detruire"; }
-	void operator()(objet& o) {
-		comportement* c = o.comportement_attache();
-		o.detacher();
-		delete c;
-	}
-};
-
-menu_edition_objet::menu_edition_objet() : menu("Actions sur cet objet") {
-	liste_.push_back(new elt_detruire);
-}
-
-objet_alpha::objet_alpha(objet& o) : comportement(o), etat_(etat_initial), objet_selectionne_(0), temporisation_(-1), menu_selectionne_(0), mnu_drw_(new menu_draw_circulaire(menu_selectionne_)) {
-	dynamic_cast<menu_draw_circulaire*>(mnu_drw_)->attacher_a(&o);
-	std::cout << "objetalpha: " << o.id() << std::endl;
+objet_alpha::objet_alpha(objet& o) : comportement(o), etat_(etat_initial), objet_selectionne_(0), temporisation_(-1), menu_selectionne_(0) {
+	// std::cout << "objetalpha: " << o.id() << std::endl;
 }
 
 objet_alpha::~objet_alpha() {
-	if(mnu_drw_)
-		delete mnu_drw_;
+
 }
 
 void objet_alpha::draw(ci::cairo::Context ctx, int w, int h) {
@@ -45,11 +17,43 @@ void objet_alpha::draw(ci::cairo::Context ctx, int w, int h) {
 		ctx.setLineWidth(4);
 		ctx.fill();
 	}
-	if(etat_ == etat_selection_confirmee && mnu_drw_) {
-		mnu_drw_->draw(ctx, w, h);
+	if(etat_ == etat_selection_confirmee) {
+		menu_draw(ctx, w, h);
 	}
 }
-#include <iostream>
+
+void objet_alpha::menu_draw(ci::cairo::Context ctx, int w, int h) {
+	ctx.setSourceRgba(0, 0, 0, 0.5);
+	ctx.rectangle(0, 50, w, 200);
+	ctx.setLineWidth(0);
+	ctx.fill();
+	// ctx.setFont(fnt_ttl_);
+	ctx.setFontSize(20);
+	ctx.setSourceRgb(1, 1, 1);
+	ctx.moveTo(5, 60);
+	ctx.showText(menu_selectionne_->titre());
+	ctx.stroke();
+	
+	double y = 0.2*h;
+	for(menu::iterator it = menu_selectionne_->begin(); it != menu_selectionne_->end(); ++it) {
+		if(*it) {
+			ctx.setFontSize(13);
+			ctx.setSourceRgb(1, 1, 0.6);
+			ctx.moveTo(15, y + 2);
+			ctx.showText((*it)->titre());
+			ctx.stroke();
+			if(it == menu_selectionne_->selection()) {
+				ctx.setLineWidth(1);
+				ctx.rectangle(5, y - 12, w - 10, 20);
+				ctx.stroke();
+			}
+			y += 0.05*h;
+		} else
+			std::cout << "erreur objet_alpha::draw_menu" << std::endl;
+	}
+}
+
+// #include <iostream>
 void objet_alpha::operator()() {
 	if(etat_ == etat_initial) {
 		// Vérifie si une sélection est possible
@@ -58,7 +62,7 @@ void objet_alpha::operator()() {
 			objet_selectionne_ = obj_collision;
 			etat_ = etat_selection_possible;
 			temporisation_ = temps_actuel();
-			std::cout << "0 initial >> 1 selection possible" << std::endl;
+			// std::cout << "0 initial >> 1 selection possible" << std::endl;
 		}
 	} else if(etat_ == etat_selection_possible) {
 		// Vérifie que l'objet alpha est toujours sur la sélection pressentie
@@ -67,20 +71,17 @@ void objet_alpha::operator()() {
 			objet_selectionne_ = 0;
 			etat_ = etat_initial;
 			temporisation_ = -1;
-			std::cout << "1 selection possible >> 0 initial" << std::endl;
+			// std::cout << "1 selection possible >> 0 initial" << std::endl;
 		}
 		// Une attente de X ms est suffisante pour confirmer la sélection
 		else if(temps_actuel() - temporisation_ >= 900) {
-			std::cout << "1 selection possible >> 2 selection confirmee" << std::endl;
+			// std::cout << "1 selection possible >> 2 selection confirmee" << std::endl;
 			etat_ = etat_selection_confirmee;
 			temporisation_ = -1;
 			if(!objet_selectionne_->est_attache())
 				menu_selectionne_ = &menu_affectation_objet::instance();
 			else
 				menu_selectionne_ = &mnu_ed_;
-			
-			if(mnu_drw_)
-				mnu_drw_->change(menu_selectionne_);
 			
 			if(menu_affectation_objet::instance().size() > 0)
 				menu_affectation_objet::instance().select(menu_affectation_objet::instance().begin());
@@ -91,7 +92,7 @@ void objet_alpha::operator()() {
 		if(!objet_selectionne_ || !objet_attache().collision(*objet_selectionne_)) {
 			etat_ = etat_pourrait_accepter;
 			temporisation_ = temps_actuel();
-			std::cout << "2 selection confirmee >> 3 pourrait accepter" << std::endl;
+			// std::cout << "2 selection confirmee >> 3 pourrait accepter" << std::endl;
 		}
 		if(menu_selectionne_) {
 			// La rotation de l'objet alpha définit ce qui est sélectionné dans le menu
@@ -113,20 +114,20 @@ void objet_alpha::operator()() {
 		if(temps_actuel() - temporisation_ >= 500) {
 			etat_ = etat_initial;
 			temporisation_ = -1;
-			std::cout << "3 pourrait accepter >> 0 initial" << std::endl;
+			// std::cout << "3 pourrait accepter >> 0 initial" << std::endl;
 			return;
 		}
 		// Attend une nouvelle collision avec l'objet sélectionné
 		else if(objet_selectionne_ && objet_attache().collision(*objet_selectionne_)) {
 			etat_ = etat_presque_accepte;
 			temporisation_ = -1;
-			std::cout << "3 pourrait accepter >> 4 presque accepte" << std::endl;
+			// std::cout << "3 pourrait accepter >> 4 presque accepte" << std::endl;
 		}
 	} else if(etat_ == etat_presque_accepte) {
 		// Attend que l'objet alpha s'en aille de l'objet sélectionné
 		if(objet_selectionne_ && !objet_attache().collision(*objet_selectionne_)) {
 			etat_ = etat_accepte;
-			std::cout << "5 presque accepte >> 6 accepte" << std::endl;
+			// std::cout << "5 presque accepte >> 6 accepte" << std::endl;
 		}
 	} else if(etat_ == etat_accepte) {
 		etat_ = etat_initial;

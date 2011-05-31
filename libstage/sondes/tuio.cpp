@@ -44,7 +44,7 @@ void tuio_demux::operator()(objet_store* store) {
 		o.x(op.x());
 		o.y(op.y());
 		o.r(op.r());
-		o.present(op.present());
+		o.present(op.present_abs());
 		pending_.pop_front();
 	}
 }

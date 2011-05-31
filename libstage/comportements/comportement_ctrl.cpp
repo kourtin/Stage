@@ -1,4 +1,5 @@
 #include "comportements/comportement_ctrl.h"
+#include "temps.h"
 
 comportement_ctrl::comportement_ctrl(objet& o) : comportement(o), o_(0), o_promis_(0), detacher_(false), temporisation_(-1) {}
 comportement_ctrl::~comportement_ctrl() {}

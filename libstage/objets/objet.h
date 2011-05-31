@@ -4,12 +4,30 @@
 #include <cmath>
 #include <cinder/Rect.h>
 #include <cinder/Vector.h>
+#include <cinder/Matrix.h>
 #include <cinder/Color.h>
 
 struct comportement;
 struct objet_store;
 
 class couplage_virtuel;
+
+class objet;
+
+// struct world {
+// 	~world() {}
+// 	void set_projection(ci::Matrix44f proj) { proj_ = proj; }
+// 	void set_screen(ci::Vec2f s) { screen_ = s; }
+// 	void set_world(ci::Matrix44f w) { world_ = w; }
+// 	ci::Matrix44f get_world() { return world_; }
+// 	static ci::Vec2f to_screen(objet&, bool c = false);
+// 	static world& instance() { static world inst; return inst; }
+// private:
+// 	world();
+// 	ci::Matrix44f world_;
+// 	ci::Matrix44f proj_;
+// 	ci::Vec2f screen_;
+// };
 
 struct objet {
 	objet(objet_store* store, int id);
@@ -35,13 +53,18 @@ struct objet {
 	ci::Rectf rect_abs_scaled(ci::Vec2f scl);
 	void rect(ci::Rectf r) { rect_ = r; }
 	bool present();
-	void attacher(comportement* c) { comportement_ = c; }
-	void detacher() { comportement_ = 0; }
-	bool est_attache() { return comportement_ != 0; }
+	bool present_abs() { return present_; }
+	bool zombie();
+	float zombie_percent();
+	float absent_percent();
+	void attacher(comportement* c);
+	void detacher();
+	void detacher(comportement* c);
+	bool est_attache();
+	bool est_vraiment_attache();
 	comportement* comportement_attache() { return comportement_; }
 	objet_store* store() { return store_; }
 	ci::Color couleur() { return couleur_; }
-	
 	float distance(objet& o);
 	bool collision(objet& o);
 	bool contient(float x, float y);
@@ -59,6 +82,7 @@ private:
 	couplage_virtuel* couplage_;
 	ci::Color couleur_;
 	double compteur_;
+	bool zombie_;
 };
 
 #endif /* end of include guard: OBJET_H_I70OZNCH */
