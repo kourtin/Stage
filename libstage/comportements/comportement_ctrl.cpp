@@ -15,19 +15,25 @@ void comportement_ctrl::draw(ci::cairo::Context ctx, int w, int h) {
 		// Affiche les objets pouvant représenter un processus sonore acceptable
 		ctx.showText("attend attache");
 	} else if(!o_ && o_promis_) {
-		couleur(ci::Color(0.5, 0.5, 0));
+		couleur(ci::Color(0.0, 1.0, 0));
 		// Met en surbillance la temporisation pour l'attachement
 		ctx.showText("attachement proche...");
 	} else if(o_ || (o_ && o_promis_ == o_)) {
 		// Affiche des trucs pour dire que c'est actuellement attaché
-		ctx.showText("attaché");
-		ci::Color vert(0, 1.0, 0);
-		couleur(vert);
+		// ctx.showText("attaché");
+		// ci::Color vert(0, 1.0, 0);
+		// couleur(vert);
 		// Fait une flèche vers l'objet sur lequel on est attaché
 		ctx.save();
 		ctx.moveTo(objet_attache().x()*w,objet_attache().y()*h);
 		ctx.lineTo(o_->x()*w, o_->y()*h);
-		ctx.setSource(vert);
+		// ctx.setSource(vert);
+		ci::cairo::GradientLinear g(objet_attache().x()*w,objet_attache().y()*h, o_->x()*w, o_->y()*h);
+		g.addColorStop(0, ci::ColorA(objet_attache().couleur(), 0.5));
+		g.addColorStop(1, ci::ColorA(o_->couleur(), 0.5));
+		g.setExtendPad();
+		// ctx.setSource(ci::ColorA(o_->couleur(), 0.5));
+		ctx.setSource(g);
 		ctx.stroke();
 		ctx.restore();
 	} else if(o_ && o_promis_) {
@@ -39,7 +45,7 @@ void comportement_ctrl::draw(ci::cairo::Context ctx, int w, int h) {
 }
 
 bool comportement_ctrl::accepte(objet& o) {
-	return o.est_attache() && (o.comportement_attache()->what() == comportement::type_source || o.comportement_attache()->what() == comportement::type_fx);
+	return o.est_attache() && (o.comportement_attache()->what() == comportement::type_source || o.comportement_attache()->what() == comportement::type_fx || o.comportement_attache()->what() == comportement::type_ctrl);
 }
 
 void comportement_ctrl::operator()() {

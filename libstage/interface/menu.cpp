@@ -51,17 +51,21 @@ void elt_detruire::operator()(objet& o) {
 #include "comportements/marteau.h"
 #include "comportements/tete_lecture.h"
 #include "comportements/variateur.h"
+#include "comportements/delayman.h"
+#include "comportements/reeverb.h"
 
 menu_affectation_objet::menu_affectation_objet() : menu("Affecter cet objet à") {
 	liste_.push_back(new elt_annuler);
 	supporter_comportement<corde_guitare>();
-	liste_.push_back(new elt_annuler);
+	// liste_.push_back(new elt_annuler);
 	supporter_comportement<marteau>();
-	liste_.push_back(new elt_annuler);
+	// liste_.push_back(new elt_annuler);
 	supporter_comportement<oscillathor>();
-	liste_.push_back(new elt_annuler);
+	// liste_.push_back(new elt_annuler);
 	supporter_comportement<micro>();
 	supporter_comportement<tete_lecture>();
+	supporter_comportement<delayman>();
+	supporter_comportement<reeverb>();
 	
 	supporter_comportement<variateur<parametre_note> >();
 	supporter_comportement<variateur<parametre_frequence> >();

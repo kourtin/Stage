@@ -14,8 +14,16 @@ struct comportement_fx : public comportement {
 	virtual liste_parametres* parametres();
 protected:
 	void set_fx(fx* s) { fx_ = s; }
+protected:
+	void objet_associe(objet* o) { o_ = o; }
+	objet* objet_associe() { return o_; }
+	virtual bool accepte(objet&);
+	virtual void maj_objet_associe(objet* ancien) {};
 private:
 	fx* fx_;
+	objet* o_, *o_promis_;
+	bool detacher_;
+	double temporisation_;
 };
 
 #endif /* end of include guard: COMPORTEMENT_FX_H_IBJT4JGL */

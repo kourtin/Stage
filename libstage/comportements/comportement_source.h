@@ -12,6 +12,7 @@ struct comportement_source : public comportement {
 	static std::string titre() { return "comportement_source"; }
 	virtual type what() { return type_source; }
 	virtual liste_parametres* parametres();
+	source* get_source() { return source_; }
 protected:
 	void set_source(source* s) { source_ = s; }
 private:

@@ -2,5 +2,5 @@
 #include <ctime>
 
 double temps_actuel() {
-	return std::clock() * 1000.0 / CLOCKS_PER_SEC;
+	return std::clock() * 1000.0/*5000.0*/ / CLOCKS_PER_SEC;
 }

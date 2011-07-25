@@ -43,8 +43,8 @@ struct affiche_objets : public AppBasic {
 		if(controle_.camera_active() || controle_.kinect_active())
 			image_cam_.update(controle_.img());
 		// if(controle_.store().objets().size() >= 1 && alphi_ == 0 && (*(*(controle_.store().begin()))).id() > 0) {
-		// 			alphi_ = new objet_alpha(*(*(controle_.store().begin())));
-		// 		}
+					// alphi_ = new objet_alpha(*(*(controle_.store().begin())));
+				// }
 		// static float adpos[3];
 		// 		static float apos[3];
 		// 		static float asigne = 0;
@@ -100,7 +100,7 @@ struct affiche_objets : public AppBasic {
 		
 		for(objet_store::iterator it = controle_.store().begin(); !alphi_ && it != controle_.store().end(); ++it) {
 			// std::cout << (*it)->id() << std::endl;
-			// if((*it)->id() == 1082/*774*//*1208*//*35*//**/)
+			// if((*it)->id() == 630/*774*//*1208*//*35*//**/)
 				// alphi_ = new objet_alpha2(*(*it));
 			if(!(*it)->est_vraiment_attache())
 				new shake_comportement(*(*it));
